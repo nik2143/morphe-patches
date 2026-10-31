@@ -356,14 +356,18 @@ public final class PlaylistTagsDialogs {
         Pair<Dialog, LinearLayout> dialog = CustomDialog.create(context, title, null, null, null,
                 onOk, onCancel, neutralText, onNeutral, true);
 
-        ScrollView scroll = new ScrollView(context);
-        scroll.addView(content);
         // Limit the height, so the buttons stay on screen with many tags or playlists.
-        content.measure(View.MeasureSpec.makeMeasureSpec(Dim.pctWidth(80), View.MeasureSpec.AT_MOST),
-                View.MeasureSpec.UNSPECIFIED);
+        // Measured on every layout, because tags can be added while the dialog is shown.
+        ScrollView scroll = new ScrollView(context) {
+            @Override
+            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                super.onMeasure(widthMeasureSpec,
+                        View.MeasureSpec.makeMeasureSpec(Dim.pctHeight(55), View.MeasureSpec.AT_MOST));
+            }
+        };
+        scroll.addView(content);
         LinearLayout.LayoutParams scrollParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                Math.min(content.getMeasuredHeight(), Dim.pctHeight(55)));
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         // Insert before the button row.
         dialog.second.addView(scroll, dialog.second.getChildCount() - 1, scrollParams);
         return dialog;

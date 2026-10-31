@@ -85,17 +85,55 @@ val playlistTagsPatch = bytecodePatch(
             )
         }
 
-        // Reload the Library after the filter changes.
+        // Rebind the Library after the filter changes. Requesting a reload from the server
+        // does nothing when the Library has no pending request, so bind the grid renderer the
+        // presenter already holds, the same way it binds a new response.
         LibraryReloadShelfFingerprint.let {
-            val reloadMethod = it.instructionMatches.first().instruction.getReference<MethodReference>()!!
+            val itemsMethod = GridRendererItemsFingerprint.method
+            val gridRendererType = itemsMethod.parameterTypes.first().toString()
 
             it.classDef.apply {
+                val bindMethod = methods.firstOrNull { method ->
+                    method.returnType == "V" &&
+                            method.parameterTypes.map { type -> type.toString() } == listOf(gridRendererType, "Z") &&
+                            method.instructions.any { instruction ->
+                                instruction.opcode == Opcode.INVOKE_STATIC &&
+                                        instruction.getReference<MethodReference>()?.let { reference ->
+                                            reference.definingClass == itemsMethod.definingClass &&
+                                                    reference.name == itemsMethod.name
+                                        } == true
+                            }
+                } ?: throw PatchException("Could not find the Library bind method")
+
+                val gridRendererField = bindMethod.instructions.firstNotNullOfOrNull { instruction ->
+                    if (instruction.opcode != Opcode.IPUT_OBJECT) return@firstNotNullOfOrNull null
+                    instruction.getReference<FieldReference>()?.takeIf { reference ->
+                        reference.definingClass == type && reference.type == gridRendererType
+                    }
+                } ?: throw PatchException("Could not find the Library grid renderer field")
+
+                // The bind method keeps the items in a field, which a recreated presenter restores.
+                val itemsCallIndex = bindMethod.instructions.indexOfFirst { instruction ->
+                    instruction.opcode == Opcode.INVOKE_STATIC &&
+                            instruction.getReference<MethodReference>()?.name == itemsMethod.name
+                }
+                val itemsListField = bindMethod.instructions.drop(itemsCallIndex).firstNotNullOfOrNull { instruction ->
+                    if (instruction.opcode != Opcode.IPUT_OBJECT) return@firstNotNullOfOrNull null
+                    instruction.getReference<FieldReference>()?.takeIf { reference ->
+                        reference.definingClass == type && reference.type == "Ljava/util/List;"
+                    }
+                } ?: throw PatchException("Could not find the Library items field")
+
                 interfaces.add(EXTENSION_LIBRARY_PRESENTER_INTERFACE)
                 addInterfaceMethod(
                     findInterfaceMethod(EXTENSION_LIBRARY_PRESENTER_INTERFACE, "patch_reloadLibrary"),
-                    1,
+                    3,
                     """
-                        invoke-virtual { p0 }, $reloadMethod
+                        iget-object v0, p0, $gridRendererField
+                        if-eqz v0, :no_grid_renderer
+                        const/4 v1, 0x1
+                        invoke-direct { p0, v0, v1 }, $type->${bindMethod.name}(${gridRendererType}Z)V
+                        :no_grid_renderer
                         return-void
                     """
                 )
@@ -117,6 +155,22 @@ val playlistTagsPatch = bytecodePatch(
                         superInit.startRegister
                     } else {
                         (superInit as FiveRegisterInstruction).registerC
+                    }
+
+                    // Filter the items restored from the saved state of a previous presenter.
+                    // Added from the last one, so the indexes of the earlier ones stay valid.
+                    constructor.instructions.withIndex().filter { (_, instruction) ->
+                        instruction.opcode == Opcode.IPUT_OBJECT &&
+                                instruction.getReference<FieldReference>() == itemsListField
+                    }.map { it.index }.reversed().forEach { index ->
+                        val listRegister = constructor.getInstruction<TwoRegisterInstruction>(index).registerA
+                        constructor.addInstructions(
+                            index,
+                            """
+                                invoke-static/range { v$listRegister .. v$listRegister }, $EXTENSION_CLASS->filterLibraryItems(Ljava/util/List;)Ljava/util/List;
+                                move-result-object v$listRegister
+                            """
+                        )
                     }
 
                     constructor.addInstruction(

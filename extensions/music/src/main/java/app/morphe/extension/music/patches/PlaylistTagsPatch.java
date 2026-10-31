@@ -13,11 +13,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -167,6 +169,7 @@ public final class PlaylistTagsPatch {
                     if (presenter != null) presenters.add(presenter);
                 }
             }
+            Logger.printDebug(() -> "Reloading " + presenters.size() + " Library presenters");
             for (LibraryPresenter presenter : presenters) {
                 try {
                     presenter.patch_reloadLibrary();
@@ -214,7 +217,17 @@ public final class PlaylistTagsPatch {
             row.setGravity(Gravity.CENTER_VERTICAL);
             row.setMinimumHeight(Dim.dp(56));
             row.setPadding(Dim.dp(24), Dim.dp8, Dim.dp(24), Dim.dp8);
-            setSelectableBackground(row);
+            // The sheet background is drawn by the list, so the row above it needs its own.
+            Drawable listBackground = list.getBackground();
+            Drawable.ConstantState listBackgroundState = listBackground == null
+                    ? null
+                    : listBackground.getConstantState();
+            if (listBackgroundState != null) {
+                row.setBackground(listBackgroundState.newDrawable().mutate());
+            } else {
+                row.setBackgroundColor(ThemeUtils.getAppBackgroundColor());
+            }
+            setSelectableForeground(row);
 
             TextView title = new TextView(context);
             title.setText(str("morphe_music_playlist_tags_menu_item"));
@@ -280,6 +293,8 @@ public final class PlaylistTagsPatch {
             button.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
                 @Override
                 public void onViewAttachedToWindow(View view) {
+                    // The same sort button class is used for the dropdown title of the toolbar.
+                    view.setVisibility(isInsideList(view) ? View.VISIBLE : View.GONE);
                     updateFilterButtonText((TextView) view);
                 }
 
@@ -289,16 +304,24 @@ public final class PlaylistTagsPatch {
             });
             updateFilterButtonText(button);
 
+            // The root is a FrameLayout that wraps its text, so place the button after the
+            // dropdown chevron in the horizontal container instead of on top of the text.
+            ViewGroup container = group;
+            if (group.getChildCount() > 0 && group.getChildAt(0) instanceof LinearLayout linearLayout) {
+                container = linearLayout;
+            }
             ViewGroup.MarginLayoutParams params;
-            if (group instanceof FrameLayout) {
+            if (container instanceof LinearLayout) {
+                LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                linearParams.gravity = Gravity.CENTER_VERTICAL;
+                params = linearParams;
+            } else {
                 params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL);
-            } else {
-                params = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
             }
-            params.setMarginEnd(Dim.dp(16));
-            group.addView(button, params);
+            params.setMarginStart(Dim.dp(12));
+            container.addView(button, params);
 
             synchronized (filterButtons) {
                 for (Iterator<WeakReference<TextView>> refs = filterButtons.iterator(); refs.hasNext(); ) {
@@ -309,6 +332,13 @@ public final class PlaylistTagsPatch {
         } catch (Exception ex) {
             Logger.printException(() -> "onSortFilterButtonCreated failure", ex);
         }
+    }
+
+    private static boolean isInsideList(View view) {
+        for (ViewParent parent = view.getParent(); parent != null; parent = parent.getParent()) {
+            if (parent.getClass().getName().endsWith("RecyclerView")) return true;
+        }
+        return false;
     }
 
     private static void updateFilterButtons() {
@@ -343,11 +373,11 @@ public final class PlaylistTagsPatch {
         return activity != null ? activity : fallback;
     }
 
-    private static void setSelectableBackground(View view) {
+    private static void setSelectableForeground(View view) {
         TypedArray attributes = view.getContext().obtainStyledAttributes(
                 new int[]{android.R.attr.selectableItemBackground});
         try {
-            view.setBackground(attributes.getDrawable(0));
+            view.setForeground(attributes.getDrawable(0));
         } finally {
             attributes.recycle();
         }
