@@ -1,0 +1,355 @@
+/*
+ * Copyright 2026 Morphe.
+ * https://github.com/MorpheApp/morphe-patches
+ *
+ * See the included NOTICE file for GPLv3 Section 7 terms that apply to this code.
+ */
+
+package app.morphe.extension.music.patches;
+
+import static app.morphe.extension.shared.StringRef.str;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import app.morphe.extension.music.settings.Settings;
+import app.morphe.extension.shared.Logger;
+import app.morphe.extension.shared.ResourceUtils;
+import app.morphe.extension.shared.Utils;
+import app.morphe.extension.shared.theme.ThemeUtils;
+import app.morphe.extension.shared.ui.CustomDialog;
+import app.morphe.extension.shared.ui.Dim;
+
+/**
+ * Lets the user tag playlists and hide the playlists of hidden tags from the Library.
+ *
+ * <p>Three places of the app are hooked:
+ * <ul>
+ *     <li>The Library grid items, to remove the playlists hidden by the tag filter.</li>
+ *     <li>The flyout menu bottom sheet, to add a 'Tags' row to the menu of a playlist.</li>
+ *     <li>The sort button of the Library, to add a 'Tags' filter button next to it.</li>
+ * </ul>
+ */
+@SuppressWarnings("unused")
+public final class PlaylistTagsPatch {
+
+    /**
+     * Added to the Library grid presenter by the patch.
+     */
+    public interface LibraryPresenter {
+        /**
+         * Reloads the Library from the server, which filters the grid items again.
+         */
+        void patch_reloadLibrary();
+    }
+
+    private static final String MENU_ROW_TAG = "morphe_playlist_tags_menu_row";
+    private static final String FILTER_BUTTON_TAG = "morphe_playlist_tags_filter_button";
+
+    private static final List<WeakReference<LibraryPresenter>> libraryPresenters = new ArrayList<>();
+
+    /**
+     * GeneratedMessageLite.toByteArray() of each proto class. The method name is not obfuscated.
+     */
+    private static final Map<Class<?>, Method> toByteArrayMethods = new ConcurrentHashMap<>();
+
+    /**
+     * Filter buttons currently shown, so their text can be updated after the filter changes.
+     */
+    private static final List<WeakReference<TextView>> filterButtons = new ArrayList<>();
+
+    private PlaylistTagsPatch() {
+    }
+
+    private static boolean isEnabled() {
+        return Settings.PLAYLIST_TAGS.get();
+    }
+
+    @Nullable
+    private static byte[] serialize(Object message) {
+        try {
+            Class<?> messageClass = message.getClass();
+            Method method = toByteArrayMethods.get(messageClass);
+            if (method == null) {
+                method = messageClass.getMethod("toByteArray");
+                toByteArrayMethods.put(messageClass, method);
+            }
+            return (byte[]) method.invoke(message);
+        } catch (Exception ex) {
+            Logger.printException(() -> "Could not serialize: " + message.getClass().getName(), ex);
+            return null;
+        }
+    }
+
+    // region Library grid
+
+    /**
+     * Injection point.
+     * Called when the Library grid presenter is created.
+     */
+    public static void registerLibraryPresenter(Object object) {
+        if (!(object instanceof LibraryPresenter presenter)) {
+            Logger.printException(() -> "Not a Library presenter: " + object);
+            return;
+        }
+        synchronized (libraryPresenters) {
+            for (Iterator<WeakReference<LibraryPresenter>> refs = libraryPresenters.iterator(); refs.hasNext(); ) {
+                if (refs.next().get() == null) refs.remove();
+            }
+            libraryPresenters.add(new WeakReference<>(presenter));
+        }
+    }
+
+    /**
+     * Injection point.
+     *
+     * @param items Library grid items, such as playlists, artists and podcasts.
+     * @return The items without the playlists hidden by the tag filter.
+     */
+    public static List<Object> filterLibraryItems(List<Object> items) {
+        if (!isEnabled() || items == null) return items;
+
+        try {
+            List<Object> filtered = new ArrayList<>(items.size());
+            for (Object item : items) {
+                byte[] bytes = item == null ? null : serialize(item);
+                PlaylistTagsProto.GridItem playlist = bytes == null
+                        ? null
+                        : PlaylistTagsProto.readGridItem(bytes);
+
+                if (playlist != null) {
+                    PlaylistTagsStore.rememberPlaylist(playlist.playlistId(), playlist.title());
+                    if (PlaylistTagsStore.isPlaylistHidden(playlist.playlistId())) {
+                        Logger.printDebug(() -> "Hiding playlist: " + playlist.title()
+                                + " (" + playlist.playlistId() + ")");
+                        continue;
+                    }
+                }
+                filtered.add(item);
+            }
+            return filtered;
+        } catch (Exception ex) {
+            Logger.printException(() -> "filterLibraryItems failure", ex);
+            return items;
+        }
+    }
+
+    /**
+     * Reloads every Library grid, so the current tag filter is applied.
+     */
+    static void reloadLibrary() {
+        Utils.runOnMainThread(() -> {
+            List<LibraryPresenter> presenters = new ArrayList<>();
+            synchronized (libraryPresenters) {
+                for (WeakReference<LibraryPresenter> ref : libraryPresenters) {
+                    LibraryPresenter presenter = ref.get();
+                    if (presenter != null) presenters.add(presenter);
+                }
+            }
+            for (LibraryPresenter presenter : presenters) {
+                try {
+                    presenter.patch_reloadLibrary();
+                } catch (Exception ex) {
+                    Logger.printException(() -> "Could not reload the Library", ex);
+                }
+            }
+            updateFilterButtons();
+        });
+    }
+
+    // endregion
+
+    // region Flyout menu
+
+    /**
+     * Injection point.
+     * Called when the flyout menu bottom sheet starts.
+     *
+     * @param dialog The bottom sheet dialog.
+     * @param menu   The menu renderer proto the bottom sheet shows.
+     */
+    public static void onMenuBottomSheetStart(@Nullable Dialog dialog, @Nullable Object menu) {
+        if (!isEnabled() || dialog == null || menu == null) return;
+
+        try {
+            byte[] bytes = serialize(menu);
+            if (bytes == null) return;
+            String playlistId = PlaylistTagsProto.findMenuPlaylistId(bytes);
+            if (playlistId == null) return;
+
+            View list = dialog.findViewById(ResourceUtils.getIdIdentifier("bottom_sheet_list"));
+            if (list == null || !(list.getParent() instanceof ViewGroup container)) {
+                Logger.printDebug(() -> "Menu bottom sheet list not found");
+                return;
+            }
+
+            Context context = container.getContext();
+            View existing = container.findViewWithTag(MENU_ROW_TAG);
+            if (existing != null) container.removeView(existing);
+
+            LinearLayout row = new LinearLayout(context);
+            row.setTag(MENU_ROW_TAG);
+            row.setOrientation(LinearLayout.VERTICAL);
+            row.setGravity(Gravity.CENTER_VERTICAL);
+            row.setMinimumHeight(Dim.dp(56));
+            row.setPadding(Dim.dp(24), Dim.dp8, Dim.dp(24), Dim.dp8);
+            setSelectableBackground(row);
+
+            TextView title = new TextView(context);
+            title.setText(str("morphe_music_playlist_tags_menu_item"));
+            title.setTextColor(ThemeUtils.getAppForegroundColor());
+            title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            row.addView(title);
+
+            TextView summary = new TextView(context);
+            Set<String> tags = PlaylistTagsStore.getPlaylistTags(playlistId);
+            summary.setText(tags.isEmpty()
+                    ? str("morphe_music_playlist_tags_menu_item_none")
+                    : TextUtils.join(", ", tags));
+            summary.setTextColor(ThemeUtils.getAppForegroundColor());
+            summary.setAlpha(0.7f);
+            summary.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+            summary.setSingleLine(true);
+            summary.setEllipsize(TextUtils.TruncateAt.END);
+            row.addView(summary);
+
+            row.setOnClickListener(v -> {
+                Context dialogContext = getDialogContext(context);
+                dialog.dismiss();
+                PlaylistTagsDialogs.showAssignDialog(dialogContext, playlistId, null);
+            });
+
+            container.addView(row, 0, new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        } catch (Exception ex) {
+            Logger.printException(() -> "onMenuBottomSheetStart failure", ex);
+        }
+    }
+
+    // endregion
+
+    // region Library filter button
+
+    /**
+     * Injection point.
+     * Called when the sort button of a list, such as the Library, is created.
+     *
+     * @param sortButton Root view of the sort button.
+     */
+    public static void onSortFilterButtonCreated(@Nullable View sortButton) {
+        if (!isEnabled() || !(sortButton instanceof ViewGroup group)) return;
+
+        try {
+            if (group.findViewWithTag(FILTER_BUTTON_TAG) != null) return;
+            Context context = group.getContext();
+
+            TextView button = new TextView(context);
+            button.setTag(FILTER_BUTTON_TAG);
+            button.setGravity(Gravity.CENTER);
+            button.setTextColor(ThemeUtils.getAppForegroundColor());
+            button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            button.setSingleLine(true);
+            button.setMinHeight(Dim.dp(32));
+            button.setPadding(Dim.dp12, Dim.dp4, Dim.dp12, Dim.dp4);
+            button.setBackground(CustomDialog.createRoundedBackground(16,
+                    Utils.adjustColorBrightness(ThemeUtils.getAppBackgroundColor(), 0.9f, 1.4f)));
+            button.setOnClickListener(v -> PlaylistTagsDialogs.showFilterDialog(
+                    getDialogContext(context), PlaylistTagsPatch::reloadLibrary));
+            // The button may be reused after the filter changed on another screen.
+            button.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View view) {
+                    updateFilterButtonText((TextView) view);
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(View view) {
+                }
+            });
+            updateFilterButtonText(button);
+
+            ViewGroup.MarginLayoutParams params;
+            if (group instanceof FrameLayout) {
+                params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL);
+            } else {
+                params = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+            params.setMarginEnd(Dim.dp(16));
+            group.addView(button, params);
+
+            synchronized (filterButtons) {
+                for (Iterator<WeakReference<TextView>> refs = filterButtons.iterator(); refs.hasNext(); ) {
+                    if (refs.next().get() == null) refs.remove();
+                }
+                filterButtons.add(new WeakReference<>(button));
+            }
+        } catch (Exception ex) {
+            Logger.printException(() -> "onSortFilterButtonCreated failure", ex);
+        }
+    }
+
+    private static void updateFilterButtons() {
+        synchronized (filterButtons) {
+            for (WeakReference<TextView> ref : filterButtons) {
+                TextView button = ref.get();
+                if (button != null) updateFilterButtonText(button);
+            }
+        }
+    }
+
+    private static void updateFilterButtonText(TextView button) {
+        String onlyTag = PlaylistTagsStore.getOnlyTag();
+        int hiddenCount = PlaylistTagsStore.getHiddenTagCount();
+        if (!onlyTag.isEmpty()) {
+            button.setText(str("morphe_music_playlist_tags_filter_button_only", onlyTag));
+        } else if (hiddenCount > 0) {
+            button.setText(str("morphe_music_playlist_tags_filter_button_hidden", hiddenCount));
+        } else {
+            button.setText(str("morphe_music_playlist_tags_filter_button"));
+        }
+    }
+
+    // endregion
+
+    /**
+     * @return The current activity if available, because the views of a dialog may use a
+     *         themed context that can't host another dialog after the first one is dismissed.
+     */
+    private static Context getDialogContext(Context fallback) {
+        Activity activity = Utils.getActivity();
+        return activity != null ? activity : fallback;
+    }
+
+    private static void setSelectableBackground(View view) {
+        TypedArray attributes = view.getContext().obtainStyledAttributes(
+                new int[]{android.R.attr.selectableItemBackground});
+        try {
+            view.setBackground(attributes.getDrawable(0));
+        } finally {
+            attributes.recycle();
+        }
+    }
+}
