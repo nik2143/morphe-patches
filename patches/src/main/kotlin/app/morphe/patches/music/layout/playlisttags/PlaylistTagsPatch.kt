@@ -24,8 +24,9 @@ import app.morphe.patches.shared.misc.settings.preference.NonInteractivePreferen
 import app.morphe.patches.shared.misc.settings.preference.PreferenceScreenPreference
 import app.morphe.patches.shared.misc.settings.preference.PreferenceScreenPreference.Sorting
 import app.morphe.patches.shared.misc.settings.preference.SwitchPreference
-import app.morphe.util.findFreeRegister
-import app.morphe.util.getReference
+import app.morphe.util.addInstructionsAtControlFlowLabel
+import app.morphe.patcher.util.findFreeRegister
+import app.morphe.patcher.util.getReference
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.Instruction
@@ -74,7 +75,8 @@ val playlistTagsPatch = bytecodePatch(
             val returnIndex = instructions.indexOfLast { it.opcode == Opcode.RETURN_OBJECT }
             val listRegister = getInstruction<OneRegisterInstruction>(returnIndex).registerA
 
-            addInstructions(
+            // The loop exits by branching to the return instruction, so the label must move to the hook.
+            addInstructionsAtControlFlowLabel(
                 returnIndex,
                 """
                     invoke-static/range { v$listRegister .. v$listRegister }, $EXTENSION_CLASS->filterLibraryItems(Ljava/util/List;)Ljava/util/List;
