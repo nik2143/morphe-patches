@@ -27,7 +27,9 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -61,7 +63,7 @@ public final class PlaylistTagsPatch {
      */
     public interface LibraryPresenter {
         /**
-         * Reloads the Library from the server, which filters the grid items again.
+         * Binds the Library renderer the presenter holds again, which filters the items again.
          */
         void patch_reloadLibrary();
     }
@@ -77,6 +79,12 @@ public final class PlaylistTagsPatch {
     private static final Map<Class<?>, Method> toByteArrayMethods = new ConcurrentHashMap<>();
 
     /**
+     * Field holding the proto of each item wrapper class, and the wrapper classes holding none.
+     */
+    private static final Map<Class<?>, Field> wrappedMessageFields = new ConcurrentHashMap<>();
+    private static final Set<Class<?>> classesWithoutMessage = ConcurrentHashMap.newKeySet();
+
+    /**
      * Filter buttons currently shown, so their text can be updated after the filter changes.
      */
     private static final List<WeakReference<TextView>> filterButtons = new ArrayList<>();
@@ -86,6 +94,49 @@ public final class PlaylistTagsPatch {
 
     private static boolean isEnabled() {
         return Settings.PLAYLIST_TAGS.get();
+    }
+
+    private static boolean isMessage(Class<?> type) {
+        if (toByteArrayMethods.containsKey(type)) return true;
+        try {
+            toByteArrayMethods.put(type, type.getMethod("toByteArray"));
+            return true;
+        } catch (NoSuchMethodException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * @return The item if it is a proto, or the proto an item wraps, such as the grid view items.
+     */
+    @Nullable
+    private static Object findMessage(Object item) {
+        Class<?> itemClass = item.getClass();
+        if (isMessage(itemClass)) return item;
+
+        try {
+            Field field = wrappedMessageFields.get(itemClass);
+            if (field == null) {
+                if (classesWithoutMessage.contains(itemClass)) return null;
+                for (Field candidate : itemClass.getDeclaredFields()) {
+                    if (Modifier.isStatic(candidate.getModifiers())
+                            || candidate.getType().isPrimitive()
+                            || !isMessage(candidate.getType())) continue;
+                    candidate.setAccessible(true);
+                    field = candidate;
+                    break;
+                }
+                if (field == null) {
+                    classesWithoutMessage.add(itemClass);
+                    return null;
+                }
+                wrappedMessageFields.put(itemClass, field);
+            }
+            return field.get(item);
+        } catch (Exception ex) {
+            Logger.printException(() -> "Could not unwrap: " + itemClass.getName(), ex);
+            return null;
+        }
     }
 
     @Nullable
@@ -135,7 +186,8 @@ public final class PlaylistTagsPatch {
         try {
             List<Object> filtered = new ArrayList<>(items.size());
             for (Object item : items) {
-                byte[] bytes = item == null ? null : serialize(item);
+                Object message = item == null ? null : findMessage(item);
+                byte[] bytes = message == null ? null : serialize(message);
                 PlaylistTagsProto.GridItem playlist = bytes == null
                         ? null
                         : PlaylistTagsProto.readGridItem(bytes);

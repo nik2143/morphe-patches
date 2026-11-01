@@ -15,17 +15,20 @@ import app.morphe.patcher.methodCall
 import app.morphe.patcher.opcode
 import app.morphe.patcher.resource.ResourceType
 import app.morphe.patcher.resourceLiteral
+import app.morphe.patcher.string
+import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
 
 /**
- * The Library grid presenter's handler of the reload event. Its first virtual call reloads the grid.
+ * Builds the items of the Library grid view, which has its own presenter and renderer.
+ * The list view uses the presenter of GridRendererItemsFingerprint.
  */
-internal object LibraryReloadShelfFingerprint : Fingerprint(
-    name = "handleMusicReloadShelfEvent",
-    returnType = "V",
+internal object LibraryGridItemsFingerprint : Fingerprint(
+    accessFlags = listOf(AccessFlags.PRIVATE, AccessFlags.FINAL),
+    returnType = "Ljava/util/List;",
     parameters = listOf("L"),
     filters = listOf(
-        methodCall(opcode = Opcode.INVOKE_VIRTUAL, returnType = "V", parameters = listOf())
+        string("Unsupported renderer in GridRenderer")
     )
 )
 
