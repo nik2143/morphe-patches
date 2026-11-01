@@ -35,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import app.morphe.extension.music.settings.Settings;
@@ -59,7 +60,7 @@ import app.morphe.extension.shared.ui.Dim;
 public final class PlaylistTagsPatch {
 
     /**
-     * Added to the Library grid presenter by the patch.
+     * Added to the presenter of the Library list view by the patch.
      */
     public interface LibraryPresenter {
         /**
@@ -68,10 +69,40 @@ public final class PlaylistTagsPatch {
         void patch_reloadLibrary();
     }
 
+    /**
+     * Added to the presenter of the Library grid view by the patch.
+     */
+    public interface LibraryGridPresenter {
+        /**
+         * Replaces the rows of the grid with the items.
+         */
+        void patch_rebindItems(List<Object> items);
+    }
+
+    /**
+     * The unfiltered items of a grid presenter. The renderer the presenter holds is only the
+     * last page it loaded, so the grid is rebuilt from the items of all pages instead.
+     */
+    private static final class GridItems {
+        final List<Object> items = new ArrayList<>();
+        /**
+         * Set when the presenter cleared its rows, so the next items replace the kept items.
+         */
+        boolean resetPending;
+    }
+
     private static final String MENU_ROW_TAG = "morphe_playlist_tags_menu_row";
     private static final String FILTER_BUTTON_TAG = "morphe_playlist_tags_filter_button";
 
-    private static final List<WeakReference<LibraryPresenter>> libraryPresenters = new ArrayList<>();
+    /**
+     * Presenters of the Library list and grid views. Only used on the main thread.
+     */
+    private static final List<WeakReference<Object>> libraryPresenters = new ArrayList<>();
+    private static final Map<Object, GridItems> gridItems = new WeakHashMap<>();
+    /**
+     * The grid presenter that is building items, set before it builds them on the main thread.
+     */
+    private static WeakReference<Object> buildingGridPresenter = new WeakReference<>(null);
 
     /**
      * GeneratedMessageLite.toByteArray() of each proto class. The method name is not obfuscated.
@@ -161,17 +192,75 @@ public final class PlaylistTagsPatch {
      * Injection point.
      * Called when the Library grid presenter is created.
      */
-    public static void registerLibraryPresenter(Object object) {
-        if (!(object instanceof LibraryPresenter presenter)) {
-            Logger.printException(() -> "Not a Library presenter: " + object);
+    public static void registerLibraryPresenter(Object presenter) {
+        if (!(presenter instanceof LibraryPresenter) && !(presenter instanceof LibraryGridPresenter)) {
+            Logger.printException(() -> "Not a Library presenter: " + presenter);
             return;
         }
         synchronized (libraryPresenters) {
-            for (Iterator<WeakReference<LibraryPresenter>> refs = libraryPresenters.iterator(); refs.hasNext(); ) {
+            for (Iterator<WeakReference<Object>> refs = libraryPresenters.iterator(); refs.hasNext(); ) {
                 if (refs.next().get() == null) refs.remove();
             }
             libraryPresenters.add(new WeakReference<>(presenter));
         }
+    }
+
+    private static GridItems getGridItems(Object presenter) {
+        GridItems items = gridItems.get(presenter);
+        if (items == null) {
+            items = new GridItems();
+            gridItems.put(presenter, items);
+        }
+        return items;
+    }
+
+    /**
+     * Injection point.
+     * Called when a grid presenter clears its rows, before it builds them again.
+     */
+    public static void onGridItemsReset(Object presenter) {
+        synchronized (gridItems) {
+            getGridItems(presenter).resetPending = true;
+        }
+    }
+
+    /**
+     * Injection point.
+     * Called when a grid presenter lays out items in rows. Items it builds after this are added to the rows.
+     */
+    public static void onGridItemsBound(Object presenter) {
+        synchronized (gridItems) {
+            getGridItems(presenter).resetPending = false;
+        }
+    }
+
+    /**
+     * Injection point.
+     * Called when a grid presenter starts to build the items of a renderer.
+     */
+    public static void onGridItemsBuilding(Object presenter) {
+        buildingGridPresenter = new WeakReference<>(presenter);
+    }
+
+    /**
+     * Injection point.
+     *
+     * @param items Items a grid presenter built from a renderer.
+     * @return The items without the playlists hidden by the tag filter.
+     */
+    public static List<Object> filterGridItems(List<Object> items) {
+        Object presenter = buildingGridPresenter.get();
+        if (presenter != null && items != null) {
+            synchronized (gridItems) {
+                GridItems kept = getGridItems(presenter);
+                if (kept.resetPending) {
+                    kept.items.clear();
+                    kept.resetPending = false;
+                }
+                kept.items.addAll(items);
+            }
+        }
+        return filterLibraryItems(items);
     }
 
     /**
@@ -214,17 +303,28 @@ public final class PlaylistTagsPatch {
      */
     static void reloadLibrary() {
         Utils.runOnMainThread(() -> {
-            List<LibraryPresenter> presenters = new ArrayList<>();
+            List<Object> presenters = new ArrayList<>();
             synchronized (libraryPresenters) {
-                for (WeakReference<LibraryPresenter> ref : libraryPresenters) {
-                    LibraryPresenter presenter = ref.get();
+                for (WeakReference<Object> ref : libraryPresenters) {
+                    Object presenter = ref.get();
                     if (presenter != null) presenters.add(presenter);
                 }
             }
             Logger.printDebug(() -> "Reloading " + presenters.size() + " Library presenters");
-            for (LibraryPresenter presenter : presenters) {
+            for (Object presenter : presenters) {
                 try {
-                    presenter.patch_reloadLibrary();
+                    if (presenter instanceof LibraryGridPresenter grid) {
+                        List<Object> items;
+                        synchronized (gridItems) {
+                            GridItems kept = gridItems.get(presenter);
+                            // A presenter that built no items yet has nothing to filter.
+                            if (kept == null) continue;
+                            items = new ArrayList<>(kept.items);
+                        }
+                        grid.patch_rebindItems(filterLibraryItems(items));
+                    } else if (presenter instanceof LibraryPresenter list) {
+                        list.patch_reloadLibrary();
+                    }
                 } catch (Exception ex) {
                     Logger.printException(() -> "Could not reload the Library", ex);
                 }

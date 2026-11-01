@@ -41,6 +41,8 @@ import com.android.tools.smali.dexlib2.iface.reference.FieldReference
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 private const val EXTENSION_CLASS = "Lapp/morphe/extension/music/patches/PlaylistTagsPatch;"
+private const val EXTENSION_LIBRARY_GRID_PRESENTER_INTERFACE =
+    $$"Lapp/morphe/extension/music/patches/PlaylistTagsPatch$LibraryGridPresenter;"
 private const val EXTENSION_LIBRARY_PRESENTER_INTERFACE =
     $$"Lapp/morphe/extension/music/patches/PlaylistTagsPatch$LibraryPresenter;"
 
@@ -77,8 +79,9 @@ val playlistTagsPatch = bytecodePatch(
 
         // The list view and the grid view of the Library each have their own presenter.
         val reloadMethod = findInterfaceMethod(EXTENSION_LIBRARY_PRESENTER_INTERFACE, "patch_reloadLibrary")
+        val rebindItemsMethod = findInterfaceMethod(EXTENSION_LIBRARY_GRID_PRESENTER_INTERFACE, "patch_rebindItems")
         GridRendererItemsFingerprint.let { it.classDef.hookLibraryListPresenter(it.method, reloadMethod) }
-        LibraryGridItemsFingerprint.let { it.classDef.hookLibraryGridPresenter(it.method, reloadMethod) }
+        LibraryGridItemsFingerprint.let { it.classDef.hookLibraryGridPresenter(it.method, rebindItemsMethod) }
 
         // endregion
 
@@ -128,6 +131,9 @@ val playlistTagsPatch = bytecodePatch(
 private const val FILTER_LIBRARY_ITEMS =
     "$EXTENSION_CLASS->filterLibraryItems(Ljava/util/List;)Ljava/util/List;"
 
+private fun Method.smaliReference() =
+    "$definingClass->$name(${parameterTypes.joinToString("")})$returnType"
+
 private fun Instruction.calls(method: Method) =
     (opcode == Opcode.INVOKE_STATIC || opcode == Opcode.INVOKE_DIRECT) &&
             getReference<MethodReference>()?.let { reference ->
@@ -140,7 +146,7 @@ private fun Instruction.calls(method: Method) =
  * Filters the items the method returns. Loops exit by branching to the return instructions,
  * so the labels must move to the hooks.
  */
-private fun MutableMethod.filterReturnedItems() {
+private fun MutableMethod.filterReturnedItems(filterMethod: String = FILTER_LIBRARY_ITEMS) {
     // Added from the last one, so the indexes of the earlier ones stay valid.
     instructions.withIndex().filter { (_, instruction) ->
         instruction.opcode == Opcode.RETURN_OBJECT
@@ -149,7 +155,7 @@ private fun MutableMethod.filterReturnedItems() {
         addInstructionsAtControlFlowLabel(
             index,
             """
-                invoke-static/range { v$listRegister .. v$listRegister }, $FILTER_LIBRARY_ITEMS
+                invoke-static/range { v$listRegister .. v$listRegister }, $filterMethod
                 move-result-object v$listRegister
             """
         )
@@ -277,18 +283,26 @@ private fun MutableClass.hookLibraryListPresenter(itemsMethod: MutableMethod, re
 /**
  * Hooks the presenter of the Library grid view.
  *
+ * The presenter keeps only the last page of items it loaded in its renderer field, so the
+ * extension keeps the items of all pages, and rebinds the grid from them after the filter changes.
+ *
  * @param itemsMethod Method that builds the items from the grid renderer.
  */
-private fun MutableClass.hookLibraryGridPresenter(itemsMethod: MutableMethod, reloadMethod: Method) {
+private fun MutableClass.hookLibraryGridPresenter(itemsMethod: MutableMethod, rebindItemsMethod: Method) {
     val rendererType = itemsMethod.parameterTypes.first().toString()
-    itemsMethod.filterReturnedItems()
+
+    itemsMethod.filterReturnedItems("$EXTENSION_CLASS->filterGridItems(Ljava/util/List;)Ljava/util/List;")
+    itemsMethod.addInstruction(
+        0,
+        "invoke-static/range { p0 .. p0 }, $EXTENSION_CLASS->onGridItemsBuilding(Ljava/lang/Object;)V"
+    )
 
     val rendererField = fields.firstOrNull { field ->
         !AccessFlags.STATIC.isSet(field.accessFlags) && field.type == rendererType
     } ?: throw PatchException("Could not find the Library grid renderer field")
 
-    // The method that rebuilds the grid after an item is removed. It prepares the renderer,
-    // builds the items and binds them. Rebind the same way, without removing an item.
+    // The method that rebuilds the grid after an item is removed. It keeps the renderer,
+    // clears the rows, builds the items and lays them out in rows.
     val rebuildMethod = methods.firstOrNull { method ->
         method.returnType == "V" &&
                 method.parameterTypes.map { type -> type.toString() } == listOf("Ljava/lang/Object;") &&
@@ -299,27 +313,49 @@ private fun MutableClass.hookLibraryGridPresenter(itemsMethod: MutableMethod, re
         instruction.opcode == Opcode.INVOKE_DIRECT
     }.mapNotNull { instruction -> instruction.getReference<MethodReference>() }
 
-    val prepareCalls = rebuildCalls.filter { reference ->
+    fun findMethod(reference: MethodReference) = methods.first { method ->
+        method.name == reference.name &&
+                method.parameterTypes.map { type -> type.toString() } ==
+                reference.parameterTypes.map { type -> type.toString() }
+    }
+
+    // Of the methods called with the renderer, the one that keeps the renderer writes its field.
+    val clearRowsMethod = rebuildCalls.filter { reference ->
         reference.definingClass == type && reference.returnType == "V" &&
                 reference.parameterTypes.map { parameter -> parameter.toString() } == listOf(rendererType)
-    }
-    val bindCall = rebuildCalls.firstOrNull { reference ->
+    }.map(::findMethod).firstOrNull { method ->
+        method.instructions.none { instruction ->
+            instruction.opcode == Opcode.IPUT_OBJECT && instruction.getReference<FieldReference>() == rendererField
+        }
+    } ?: throw PatchException("Could not find the Library grid clear rows method")
+
+    val layoutRowsMethod = rebuildCalls.firstOrNull { reference ->
         reference.definingClass == type && reference.returnType == "V" &&
                 reference.parameterTypes.map { parameter -> parameter.toString() } ==
                 listOf("Ljava/util/List;", rendererType)
-    } ?: throw PatchException("Could not find the Library grid bind method")
+    }?.let(::findMethod) ?: throw PatchException("Could not find the Library grid layout rows method")
 
-    val prepareInstructions = prepareCalls.joinToString("\n") { reference ->
-        "invoke-direct { p0, v0 }, $reference"
-    }
-    addReloadMethod(
-        reloadMethod,
-        rendererField,
+    clearRowsMethod.addInstruction(
+        0,
+        "invoke-static/range { p0 .. p0 }, $EXTENSION_CLASS->onGridItemsReset(Ljava/lang/Object;)V"
+    )
+    layoutRowsMethod.addInstruction(
+        0,
+        "invoke-static/range { p0 .. p0 }, $EXTENSION_CLASS->onGridItemsBound(Ljava/lang/Object;)V"
+    )
+
+    // Clears the rows and lays out the items in p1, with the header of the renderer.
+    interfaces.add(EXTENSION_LIBRARY_GRID_PRESENTER_INTERFACE)
+    addInterfaceMethod(
+        rebindItemsMethod,
+        3,
         """
-            $prepareInstructions
-            invoke-direct { p0, v0 }, $type->${itemsMethod.name}($rendererType)Ljava/util/List;
-            move-result-object v1
-            invoke-direct { p0, v1, v0 }, $bindCall
+            iget-object v0, p0, $rendererField
+            if-eqz v0, :no_renderer
+            invoke-direct { p0, v0 }, ${clearRowsMethod.smaliReference()}
+            invoke-direct { p0, p1, v0 }, ${layoutRowsMethod.smaliReference()}
+            :no_renderer
+            return-void
         """
     )
     registerLibraryPresenter(null)
