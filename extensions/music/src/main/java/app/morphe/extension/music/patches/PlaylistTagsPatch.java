@@ -265,13 +265,15 @@ public final class PlaylistTagsPatch {
      * Injection point.
      *
      * @param items Library grid items, such as playlists, artists and podcasts.
-     * @return The items without the playlists hidden by the tag filter.
+     * @return The items without the playlists hidden by the tag filter. While only one tag
+     *         is shown, items that are not playlists, such as mixes and artists, are removed too.
      */
     public static List<Object> filterLibraryItems(List<Object> items) {
         if (!isEnabled() || items == null) return items;
 
         try {
             List<Object> filtered = new ArrayList<>(items.size());
+            boolean showOnlyTag = !PlaylistTagsStore.getOnlyTag().isEmpty();
             for (Object item : items) {
                 Object message = item == null ? null : findMessage(item);
                 byte[] bytes = message == null ? null : serialize(message);
@@ -286,6 +288,10 @@ public final class PlaylistTagsPatch {
                                 + " (" + playlist.playlistId() + ")");
                         continue;
                     }
+                } else if (showOnlyTag && message != null) {
+                    // Mixes, albums, artists and profiles can't be tagged. Items that are not
+                    // a proto, such as headers, are kept.
+                    continue;
                 }
                 filtered.add(item);
             }
