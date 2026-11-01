@@ -224,11 +224,15 @@ final class PlaylistTagsStore {
         return Boolean.TRUE.equals(tags.get(name));
     }
 
-    static synchronized void setTagHidden(String name, boolean hidden) {
+    /**
+     * @return If the hidden state changed.
+     */
+    static synchronized boolean setTagHidden(String name, boolean hidden) {
         loadIfNeeded();
-        if (!tags.containsKey(name) || isTagHidden(name) == hidden) return;
+        if (!tags.containsKey(name) || isTagHidden(name) == hidden) return false;
         tags.put(name, hidden);
         save();
+        return true;
     }
 
     @NonNull
@@ -237,12 +241,16 @@ final class PlaylistTagsStore {
         return onlyTag;
     }
 
-    static synchronized void setOnlyTag(@Nullable String name) {
+    /**
+     * @return If the tag to show only changed.
+     */
+    static synchronized boolean setOnlyTag(@Nullable String name) {
         loadIfNeeded();
         if (name == null || !tags.containsKey(name)) name = "";
-        if (onlyTag.equals(name)) return;
+        if (onlyTag.equals(name)) return false;
         onlyTag = name;
         save();
+        return true;
     }
 
     static synchronized int getHiddenTagCount() {
@@ -271,10 +279,7 @@ final class PlaylistTagsStore {
         for (String tag : tags.keySet()) {
             if (names.contains(tag)) set.add(tag);
         }
-        if (set.equals(playlistTags.get(playlistId))
-                || (set.isEmpty() && !playlistTags.containsKey(playlistId))) {
-            return;
-        }
+        if (set.equals(playlistTags.getOrDefault(playlistId, Collections.emptySet()))) return;
         if (set.isEmpty()) {
             playlistTags.remove(playlistId);
         } else {
@@ -293,7 +298,8 @@ final class PlaylistTagsStore {
         if (!onlyTag.isEmpty()) {
             return set == null || !set.contains(onlyTag);
         }
-        if (set == null || set.isEmpty()) return false;
+        // Playlists without tags are not stored, so a stored set is never empty.
+        if (set == null) return false;
         for (String tag : set) {
             if (!Boolean.TRUE.equals(tags.get(tag))) return false;
         }
@@ -335,7 +341,7 @@ final class PlaylistTagsStore {
         loadIfNeeded();
         Map<String, String> playlists = new LinkedHashMap<>(knownPlaylists);
         for (String id : playlistTags.keySet()) {
-            if (!playlists.containsKey(id)) playlists.put(id, id);
+            playlists.putIfAbsent(id, id);
         }
         return playlists;
     }

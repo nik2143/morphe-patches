@@ -212,32 +212,6 @@ private fun MutableClass.registerLibraryPresenter(restoredItemsField: FieldRefer
 }
 
 /**
- * Adds the reload method of the extension interface. Requesting a reload from the server does
- * nothing when the Library has no pending request, so the presenter binds the renderer it holds
- * again, the same way it binds a new response.
- *
- * @param rebindInstructions Instructions that bind the renderer in v0, using v1 as a scratch register.
- */
-private fun MutableClass.addReloadMethod(
-    reloadMethod: Method,
-    rendererField: FieldReference,
-    rebindInstructions: String,
-) {
-    interfaces.add(EXTENSION_LIBRARY_PRESENTER_INTERFACE)
-    addInterfaceMethod(
-        reloadMethod,
-        3,
-        """
-            iget-object v0, p0, $rendererField
-            if-eqz v0, :no_renderer
-            $rebindInstructions
-            :no_renderer
-            return-void
-        """
-    )
-}
-
-/**
  * Hooks the presenter of the Library list view.
  *
  * @param itemsMethod Static method that builds the items from the grid renderer.
@@ -268,13 +242,20 @@ private fun MutableClass.hookLibraryListPresenter(itemsMethod: MutableMethod, re
         }
     } ?: throw PatchException("Could not find the Library list items field")
 
-    // Bind as the constructor does, which also clears the headers that binding adds again.
-    addReloadMethod(
+    // Requesting a reload from the server does nothing when the Library has no pending request,
+    // so bind the renderer the presenter holds again, as the constructor does. This also clears
+    // the headers that binding adds again.
+    interfaces.add(EXTENSION_LIBRARY_PRESENTER_INTERFACE)
+    addInterfaceMethod(
         reloadMethod,
-        rendererField,
+        3,
         """
+            iget-object v0, p0, $rendererField
+            if-eqz v0, :no_renderer
             const/4 v1, 0x0
             invoke-direct { p0, v0, v1 }, $type->${bindMethod.name}(${rendererType}Z)V
+            :no_renderer
+            return-void
         """
     )
     registerLibraryPresenter(itemsListField)

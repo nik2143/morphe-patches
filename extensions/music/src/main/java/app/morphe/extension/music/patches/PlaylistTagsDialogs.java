@@ -31,6 +31,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -161,12 +162,12 @@ public final class PlaylistTagsDialogs {
                 return;
             }
 
-            final String originalOnlyTag = PlaylistTagsStore.getOnlyTag();
+            String originalOnlyTag = PlaylistTagsStore.getOnlyTag();
+            String[] onlyTag = {originalOnlyTag};
             Map<String, Boolean> visibility = new LinkedHashMap<>();
             for (String tag : tags) {
                 visibility.put(tag, !PlaylistTagsStore.isTagHidden(tag));
             }
-            final String[] onlyTag = {originalOnlyTag};
 
             LinearLayout content = createContentLayout(context);
 
@@ -197,14 +198,9 @@ public final class PlaylistTagsDialogs {
                     str("morphe_music_playlist_tags_filter_title"),
                     content,
                     () -> {
-                        boolean changed = !onlyTag[0].equals(originalOnlyTag);
-                        PlaylistTagsStore.setOnlyTag(onlyTag[0]);
+                        boolean changed = PlaylistTagsStore.setOnlyTag(onlyTag[0]);
                         for (Map.Entry<String, Boolean> entry : visibility.entrySet()) {
-                            boolean hidden = !entry.getValue();
-                            if (PlaylistTagsStore.isTagHidden(entry.getKey()) != hidden) {
-                                PlaylistTagsStore.setTagHidden(entry.getKey(), hidden);
-                                changed = true;
-                            }
+                            changed |= PlaylistTagsStore.setTagHidden(entry.getKey(), !entry.getValue());
                         }
                         if (changed) onChanged.run();
                     },
@@ -267,18 +263,19 @@ public final class PlaylistTagsDialogs {
                 empty.setAlpha(0.7f);
                 content.addView(empty);
             } else {
+                Map<String, Set<String>> playlistTags = new HashMap<>();
+                for (String id : playlists.keySet()) {
+                    playlistTags.put(id, PlaylistTagsStore.getPlaylistTags(id));
+                }
                 List<Map.Entry<String, String>> sorted = new ArrayList<>(playlists.entrySet());
                 sorted.sort((a, b) -> {
-                    boolean aTagged = !PlaylistTagsStore.getPlaylistTags(a.getKey()).isEmpty();
-                    boolean bTagged = !PlaylistTagsStore.getPlaylistTags(b.getKey()).isEmpty();
+                    boolean aTagged = !playlistTags.get(a.getKey()).isEmpty();
+                    boolean bTagged = !playlistTags.get(b.getKey()).isEmpty();
                     if (aTagged != bTagged) return aTagged ? -1 : 1;
                     return a.getValue().compareToIgnoreCase(b.getValue());
                 });
                 for (Map.Entry<String, String> playlist : sorted) {
-                    Set<String> playlistTags = PlaylistTagsStore.getPlaylistTags(playlist.getKey());
-                    String summary = playlistTags.isEmpty()
-                            ? str("morphe_music_playlist_tags_menu_item_none")
-                            : TextUtils.join(", ", playlistTags);
+                    String summary = describeTags(playlistTags.get(playlist.getKey()));
                     content.addView(createListRow(context, playlist.getValue(), summary,
                             () -> {
                                 managerDialog[0].dismiss();
@@ -348,6 +345,15 @@ public final class PlaylistTagsDialogs {
     // endregion
 
     // region Views
+
+    /**
+     * @return The tags of a playlist as text, or a text saying it has none.
+     */
+    static String describeTags(Set<String> tags) {
+        return tags.isEmpty()
+                ? str("morphe_music_playlist_tags_menu_item_none")
+                : TextUtils.join(", ", tags);
+    }
 
     private static Pair<Dialog, LinearLayout> createDialog(Context context, String title, View content,
                                                            Runnable onOk, @Nullable Runnable onCancel,

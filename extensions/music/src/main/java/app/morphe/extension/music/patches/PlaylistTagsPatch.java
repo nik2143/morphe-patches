@@ -51,7 +51,7 @@ import app.morphe.extension.shared.ui.Dim;
  *
  * <p>Three places of the app are hooked:
  * <ul>
- *     <li>The Library grid items, to remove the playlists hidden by the tag filter.</li>
+ *     <li>The items of the Library list and grid views, to remove the playlists hidden by the tag filter.</li>
  *     <li>The flyout menu bottom sheet, to add a 'Tags' row to the menu of a playlist.</li>
  *     <li>The sort button of the Library, to add a 'Tags' filter button next to it.</li>
  * </ul>
@@ -95,7 +95,7 @@ public final class PlaylistTagsPatch {
     private static final String FILTER_BUTTON_TAG = "morphe_playlist_tags_filter_button";
 
     /**
-     * Presenters of the Library list and grid views. Only used on the main thread.
+     * Presenters of the Library list and grid views.
      */
     private static final List<WeakReference<Object>> libraryPresenters = new ArrayList<>();
     private static final Map<Object, GridItems> gridItems = new WeakHashMap<>();
@@ -174,44 +174,42 @@ public final class PlaylistTagsPatch {
     private static byte[] serialize(Object message) {
         try {
             Class<?> messageClass = message.getClass();
-            Method method = toByteArrayMethods.get(messageClass);
-            if (method == null) {
-                method = messageClass.getMethod("toByteArray");
-                toByteArrayMethods.put(messageClass, method);
-            }
-            return (byte[]) method.invoke(message);
+            if (!isMessage(messageClass)) return null;
+            return (byte[]) toByteArrayMethods.get(messageClass).invoke(message);
         } catch (Exception ex) {
             Logger.printException(() -> "Could not serialize: " + message.getClass().getName(), ex);
             return null;
         }
     }
 
-    // region Library grid
+    /**
+     * Adds a weak reference to a list, and removes the references to collected objects.
+     */
+    private static <T> void addWeakReference(List<WeakReference<T>> list, T object) {
+        synchronized (list) {
+            for (Iterator<WeakReference<T>> refs = list.iterator(); refs.hasNext(); ) {
+                if (refs.next().get() == null) refs.remove();
+            }
+            list.add(new WeakReference<>(object));
+        }
+    }
+
+    // region Library
 
     /**
      * Injection point.
-     * Called when the Library grid presenter is created.
+     * Called when a presenter of the Library list or grid view is created.
      */
     public static void registerLibraryPresenter(Object presenter) {
         if (!(presenter instanceof LibraryPresenter) && !(presenter instanceof LibraryGridPresenter)) {
             Logger.printException(() -> "Not a Library presenter: " + presenter);
             return;
         }
-        synchronized (libraryPresenters) {
-            for (Iterator<WeakReference<Object>> refs = libraryPresenters.iterator(); refs.hasNext(); ) {
-                if (refs.next().get() == null) refs.remove();
-            }
-            libraryPresenters.add(new WeakReference<>(presenter));
-        }
+        addWeakReference(libraryPresenters, presenter);
     }
 
     private static GridItems getGridItems(Object presenter) {
-        GridItems items = gridItems.get(presenter);
-        if (items == null) {
-            items = new GridItems();
-            gridItems.put(presenter, items);
-        }
-        return items;
+        return gridItems.computeIfAbsent(presenter, key -> new GridItems());
     }
 
     /**
@@ -299,7 +297,7 @@ public final class PlaylistTagsPatch {
     }
 
     /**
-     * Reloads every Library grid, so the current tag filter is applied.
+     * Rebinds the Library list and grid views, so the current tag filter is applied.
      */
     static void reloadLibrary() {
         Utils.runOnMainThread(() -> {
@@ -388,10 +386,7 @@ public final class PlaylistTagsPatch {
             row.addView(title);
 
             TextView summary = new TextView(context);
-            Set<String> tags = PlaylistTagsStore.getPlaylistTags(playlistId);
-            summary.setText(tags.isEmpty()
-                    ? str("morphe_music_playlist_tags_menu_item_none")
-                    : TextUtils.join(", ", tags));
+            summary.setText(PlaylistTagsDialogs.describeTags(PlaylistTagsStore.getPlaylistTags(playlistId)));
             summary.setTextColor(ThemeUtils.getAppForegroundColor());
             summary.setAlpha(0.7f);
             summary.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
@@ -475,12 +470,7 @@ public final class PlaylistTagsPatch {
             params.setMarginStart(Dim.dp(12));
             container.addView(button, params);
 
-            synchronized (filterButtons) {
-                for (Iterator<WeakReference<TextView>> refs = filterButtons.iterator(); refs.hasNext(); ) {
-                    if (refs.next().get() == null) refs.remove();
-                }
-                filterButtons.add(new WeakReference<>(button));
-            }
+            addWeakReference(filterButtons, button);
         } catch (Exception ex) {
             Logger.printException(() -> "onSortFilterButtonCreated failure", ex);
         }

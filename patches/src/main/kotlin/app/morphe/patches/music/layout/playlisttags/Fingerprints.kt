@@ -16,7 +16,6 @@ import app.morphe.patcher.opcode
 import app.morphe.patcher.resource.ResourceType
 import app.morphe.patcher.resourceLiteral
 import app.morphe.patcher.string
-import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
 
 /**
@@ -24,7 +23,6 @@ import com.android.tools.smali.dexlib2.Opcode
  * The list view uses the presenter of GridRendererItemsFingerprint.
  */
 internal object LibraryGridItemsFingerprint : Fingerprint(
-    accessFlags = listOf(AccessFlags.PRIVATE, AccessFlags.FINAL),
     returnType = "Ljava/util/List;",
     parameters = listOf("L"),
     filters = listOf(
