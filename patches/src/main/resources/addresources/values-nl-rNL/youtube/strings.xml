@@ -1178,11 +1178,6 @@ Auto-indeling
 • Overlay 'Meer video's' is mogelijk niet beschikbaar
 • Shorts worden geopend in de reguliere speler
 • Niet ingeklapte oude actiebalk voor video's wordt weergegeven"</string>
-  <string name="morphe_tablet_layout_in_player_title">Schakel tabletindeling in de speler in</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Herstelt de oude player layout
-
-Beperking: Als \"Video acties balk layout\" niet op Klassiek staat, is de \"Meer video's\" overlay mogelijk niet beschikbaar"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - Herstel het oude gedrag van ondertitels</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - Herstel oude Shorts-speler pictogrammen</string>
@@ -1544,9 +1539,7 @@ Het afspelen van video met AV1 kan haperen of frames overslaan"</string>
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Video acties balk layout</string>
   <string name="morphe_video_action_bar_layout_entry_1">Standaard</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Klassiek</string>
   <string name="morphe_video_action_bar_layout_entry_3">Minimaal</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Beperking: Klassiek gaat terug naar de oude stijl van de \"Meer video\'s\" overlay</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Stijl van het pictogram van de speler</string>
   <string name="morphe_player_icon_style_entry_auto">Automatisch</string>

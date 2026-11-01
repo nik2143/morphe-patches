@@ -158,6 +158,8 @@ Melodiile descărcate apar aici"</string>
   <string name="morphe_music_downloads_track_deleted">Descărcare ștearsă</string>
   <string name="morphe_music_downloads_track_delete_failed">Nu s-a putut șterge descărcarea</string>
   <string name="morphe_music_downloads_play_failed">Nu s-a putut reda descărcarea</string>
+  <string name="morphe_music_downloads_playlists">Liste de redare</string>
+  <string name="morphe_music_downloads_playlist_save">Salvează</string>
   <string name="morphe_music_downloads_notification_channel">Descărcări audio</string>
   <string name="morphe_music_downloads_playback_channel">Redare offline</string>
   <string name="morphe_music_downloads_unknown_track">Nu s-a putut identifica melodia de descărcat</string>

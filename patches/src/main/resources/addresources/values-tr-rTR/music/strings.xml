@@ -158,6 +158,11 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">İndirilen silindi</string>
   <string name="morphe_music_downloads_track_delete_failed">İndirilen silinemedi</string>
   <string name="morphe_music_downloads_play_failed">İndirilen oynatılamadı</string>
+  <string name="morphe_music_downloads_playlists">Oynatma listeleri</string>
+  <string name="morphe_music_downloads_playlist_rename">Yeniden adlandır</string>
+  <string name="morphe_music_downloads_playlist_save">Kaydet</string>
+  <string name="morphe_music_downloads_playlist_drag_track">Yeniden sıralamak için sürükleyin</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">Bitti</string>
   <string name="morphe_music_downloads_notification_channel">Ses indirmeleri</string>
   <string name="morphe_music_downloads_playback_channel">Çevrimdışı oynatma</string>
   <string name="morphe_music_downloads_unknown_track">İndirilecek parça tanımlanamadı</string>

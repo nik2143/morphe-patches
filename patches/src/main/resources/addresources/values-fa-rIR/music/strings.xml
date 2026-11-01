@@ -158,6 +158,11 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">دانلود حذف شد</string>
   <string name="morphe_music_downloads_track_delete_failed">حذف دانلود ممکن نشد</string>
   <string name="morphe_music_downloads_play_failed">پخش دانلود ممکن نشد</string>
+  <string name="morphe_music_downloads_playlists">فهرست‌های پخش</string>
+  <string name="morphe_music_downloads_playlist_rename">تغییر نام</string>
+  <string name="morphe_music_downloads_playlist_save">ذخیره</string>
+  <string name="morphe_music_downloads_playlist_drag_track">برای مرتب‌سازی دوباره بکشید</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">انجام شد</string>
   <string name="morphe_music_downloads_notification_channel">دانلودهای صوتی</string>
   <string name="morphe_music_downloads_playback_channel">پخش آفلاین</string>
   <string name="morphe_music_downloads_unknown_track">شناسایی آهنگ برای دانلود ممکن نشد</string>

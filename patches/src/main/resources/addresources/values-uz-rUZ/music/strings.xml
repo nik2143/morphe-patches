@@ -157,6 +157,7 @@ Yuklab olingan treklar shu yerda ko\"rinadi"</string>
   <string name="morphe_music_downloads_track_deleted">Yuklama o\'chirildi</string>
   <string name="morphe_music_downloads_track_delete_failed">Yuklamani o\'chirib bo\'lmadi</string>
   <string name="morphe_music_downloads_play_failed">Yuklamani ijro etib bo\'lmadi</string>
+  <string name="morphe_music_downloads_playlists">Pleylistlar</string>
   <string name="morphe_music_downloads_notification_channel">Audio yuklamalar</string>
   <string name="morphe_music_downloads_playback_channel">Oflayn ijro</string>
   <string name="morphe_music_downloads_unknown_track">Yuklab olish uchun trekni aniqlab bo\'lmadi</string>

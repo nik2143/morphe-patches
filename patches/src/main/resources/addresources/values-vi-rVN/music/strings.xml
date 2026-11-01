@@ -158,6 +158,10 @@ Các bài hát đã tải sẽ xuất hiện ở đây"</string>
   <string name="morphe_music_downloads_track_deleted">Đã xóa bản tải xuống</string>
   <string name="morphe_music_downloads_track_delete_failed">Không thể xóa bản tải xuống</string>
   <string name="morphe_music_downloads_play_failed">Không thể phát bản tải xuống</string>
+  <string name="morphe_music_downloads_playlists">Danh sách phát</string>
+  <string name="morphe_music_downloads_playlist_rename">Đổi tên</string>
+  <string name="morphe_music_downloads_playlist_save">Lưu</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">Xong</string>
   <string name="morphe_music_downloads_notification_channel">Tải xuống âm thanh</string>
   <string name="morphe_music_downloads_playback_channel">Phát lại ngoại tuyến</string>
   <string name="morphe_music_downloads_unknown_track">Không thể xác định bài hát để tải xuống</string>

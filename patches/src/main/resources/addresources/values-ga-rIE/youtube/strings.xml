@@ -1180,11 +1180,6 @@ Leagan amach feithicleach
 • Seans nach mbeidh an forleagan 'Tuilleadh físeáin' ar fáil
 • Oscailtear Shorts sa ghnáthimreoir
 • Taispeántar barra gníomhaíochta seanfhíseáin neamh-fhillte"</string>
-  <string name="morphe_tablet_layout_in_player_title">Cumasaigh leagan amach táibléid sa seinnteoir</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Athchóiríonn sé leagan amach an tsean-imreoir
-
-Teorainn: Mura bhfuil 'Leagan amach barra gníomhaíochta físeáin' Classic, b'fhéidir nach mbeidh forleagan 'Tuilleadh físeáin' ar fáil"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - Athchóirigh iompar fotheidil d\'aois</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - Athchóirigh an sean-shábháil chuig an seinmliosta</string>
@@ -1546,9 +1541,7 @@ D’fhéadfadh sé go mbeadh stad nó go gcaillfí frámaí ag athsheinm físe l
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Leagan amach barra gníomhaíochta físeáin</string>
   <string name="morphe_video_action_bar_layout_entry_1">Réamhshocrú</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Clasaiceach</string>
   <string name="morphe_video_action_bar_layout_entry_3">Íosta</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Teorainn: Fiúrtas Classic ag athfhucail go stíl sean-forleagan \'Tuilleadh físeáin\'</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Stíl dheilbhín an imreora</string>
   <string name="morphe_player_icon_style_entry_auto">Uathoibríoch</string>

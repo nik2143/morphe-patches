@@ -158,6 +158,11 @@ tظهر المسارات التي تم تنزيلها هنا"</string>
   <string name="morphe_music_downloads_track_deleted">تم حذف التنزيل</string>
   <string name="morphe_music_downloads_track_delete_failed">تعذّر حذف التنزيل</string>
   <string name="morphe_music_downloads_play_failed">تعذّر تشغيل التنزيل</string>
+  <string name="morphe_music_downloads_playlists">قوائم التشغيل</string>
+  <string name="morphe_music_downloads_playlist_rename">إعادة تسمية</string>
+  <string name="morphe_music_downloads_playlist_save">حفظ</string>
+  <string name="morphe_music_downloads_playlist_drag_track">اسحب لإعادة الترتيب</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">تم</string>
   <string name="morphe_music_downloads_notification_channel">تنزيلات الصوت</string>
   <string name="morphe_music_downloads_playback_channel">التشغيل بدون اتصال</string>
   <string name="morphe_music_downloads_unknown_track">تعذّر تحديد المسار المطلوب تنزيله</string>

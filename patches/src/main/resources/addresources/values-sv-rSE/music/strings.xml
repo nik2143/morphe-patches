@@ -158,6 +158,11 @@ Nedladdade spår visas här"</string>
   <string name="morphe_music_downloads_track_deleted">Nedladdning raderades</string>
   <string name="morphe_music_downloads_track_delete_failed">Det gick inte att radera nedladdningen</string>
   <string name="morphe_music_downloads_play_failed">Det gick inte att spela nedladdningen</string>
+  <string name="morphe_music_downloads_playlists">Spellistor</string>
+  <string name="morphe_music_downloads_playlist_rename">Byt namn</string>
+  <string name="morphe_music_downloads_playlist_save">Spara</string>
+  <string name="morphe_music_downloads_playlist_drag_track">Dra för att ändra ordningen</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">Klart</string>
   <string name="morphe_music_downloads_notification_channel">Ljudnedladdningar</string>
   <string name="morphe_music_downloads_playback_channel">Offlineuppspelning</string>
   <string name="morphe_music_downloads_unknown_track">Det gick inte att identifiera spåret som ska laddas ner</string>

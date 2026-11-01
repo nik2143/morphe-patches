@@ -158,6 +158,8 @@ Ladatut kappaleet näkyvät tässä"</string>
   <string name="morphe_music_downloads_track_deleted">Lataus poistettu</string>
   <string name="morphe_music_downloads_track_delete_failed">Latauksen poistaminen epäonnistui</string>
   <string name="morphe_music_downloads_play_failed">Latauksen toistaminen epäonnistui</string>
+  <string name="morphe_music_downloads_playlists">Soittolistat</string>
+  <string name="morphe_music_downloads_playlist_save">Tallenna</string>
   <string name="morphe_music_downloads_notification_channel">Äänilataukset</string>
   <string name="morphe_music_downloads_playback_channel">Offline-toisto</string>
   <string name="morphe_music_downloads_unknown_track">Ladattavaa kappaletta ei voitu tunnistaa</string>

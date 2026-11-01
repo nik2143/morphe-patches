@@ -158,6 +158,9 @@ Stiahnuté skladby sa zobrazia tu"</string>
   <string name="morphe_music_downloads_track_deleted">Sťahovanie bolo odstránené</string>
   <string name="morphe_music_downloads_track_delete_failed">Sťahovanie sa nepodarilo odstrániť</string>
   <string name="morphe_music_downloads_play_failed">Sťahovanie sa nepodarilo prehrať</string>
+  <string name="morphe_music_downloads_playlists">Zoznamy</string>
+  <string name="morphe_music_downloads_playlist_rename">Premenovať</string>
+  <string name="morphe_music_downloads_playlist_save">Uložiť</string>
   <string name="morphe_music_downloads_notification_channel">Sťahovanie zvuku</string>
   <string name="morphe_music_downloads_playback_channel">Offline prehrávanie</string>
   <string name="morphe_music_downloads_unknown_track">Nepodarilo sa identifikovať skladbu na stiahnutie</string>

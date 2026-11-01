@@ -158,6 +158,9 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">下载已删除</string>
   <string name="morphe_music_downloads_track_delete_failed">无法删除下载</string>
   <string name="morphe_music_downloads_play_failed">无法播放下载</string>
+  <string name="morphe_music_downloads_playlists">播放列表</string>
+  <string name="morphe_music_downloads_playlist_rename">重命名</string>
+  <string name="morphe_music_downloads_playlist_save">保存</string>
   <string name="morphe_music_downloads_notification_channel">音频下载</string>
   <string name="morphe_music_downloads_playback_channel">离线播放</string>
   <string name="morphe_music_downloads_unknown_track">无法识别要下载的曲目</string>

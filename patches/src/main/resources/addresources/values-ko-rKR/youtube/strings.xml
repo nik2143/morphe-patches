@@ -1181,11 +1181,6 @@ API 키는 절대로 다른 사람과 공유해서는 안 됩니다. API 키에 
 • '동영상 더보기' 오버레이가 표시되지 않을 수 있습니다
 • Shorts는 일반 플레이어에서 열립니다
 • 접히지 않은 이전 동영상 작업 버튼바가 표시됩니다"</string>
-  <string name="morphe_tablet_layout_in_player_title">플레이어에서 태블릿 레이아웃 활성화하기</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"이전 플레이어 레이아웃으로 복원합니다
-
-제한 사항: '동영상 작업 버튼바 레이아웃'이 '클래식'이 아닌 경우, '추가 동영상' 오버레이를 사용할 수 없을 수 있습니다"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - 이전 자막 동작을 복원합니다</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - 이전 \'재생목록에 저장\'을 복원합니다</string>
@@ -1547,9 +1542,10 @@ AV1이 사용된 동영상 재생이 끊기거나 프레임이 손실될 수 있
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">동영상 작업 버튼바 레이아웃</string>
   <string name="morphe_video_action_bar_layout_entry_1">기본값</string>
-  <string name="morphe_video_action_bar_layout_entry_2">클래식</string>
-  <string name="morphe_video_action_bar_layout_entry_3">최소화 1</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">제한 사항: 클래식 설정 시 이전 스타일의 \'추가 동영상\' 오버레이로 되돌아갑니다</string>
+  <string name="morphe_video_action_bar_layout_entry_2">클래식 한 줄</string>
+  <string name="morphe_video_action_bar_layout_entry_3">최소화</string>
+  <string name="morphe_video_action_bar_layout_entry_4">클래식 두 줄</string>
+  <string name="morphe_video_action_bar_layout_user_dialog_message">제한 사항: 클래식 레이아웃에서는 기존의 \'동영상 더보기\' 오버레이 스타일로 되돌아갑니다</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">플레이어 아이콘 스타일</string>
   <string name="morphe_player_icon_style_entry_auto">자동</string>

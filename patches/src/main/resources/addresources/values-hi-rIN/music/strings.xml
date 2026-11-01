@@ -158,6 +158,9 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">डाउनलोड हटा दिया गया</string>
   <string name="morphe_music_downloads_track_delete_failed">डाउनलोड हटाया नहीं जा सका</string>
   <string name="morphe_music_downloads_play_failed">डाउनलोड चलाया नहीं जा सका</string>
+  <string name="morphe_music_downloads_playlist_save">सेव करें</string>
+  <string name="morphe_music_downloads_playlist_drag_track">क्रम बदलने के लिए खींचें</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">हो गया</string>
   <string name="morphe_music_downloads_notification_channel">ऑडियो डाउनलोड</string>
   <string name="morphe_music_downloads_playback_channel">ऑफ़लाइन प्लेबैक</string>
   <string name="morphe_music_downloads_unknown_track">डाउनलोड करने के लिए ट्रैक की पहचान नहीं की जा सकी</string>

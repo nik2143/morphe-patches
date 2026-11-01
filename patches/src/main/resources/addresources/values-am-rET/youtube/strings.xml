@@ -1165,8 +1165,6 @@ OpenRouter.aiን ለመክፈት እዚህ ይጫኑ"</string>
 • 'ተጨማሪ ቪዲዮዎች' የሚለው ኦቨርሌ ላይገኝ ይችላል
 • Shorts በመደበኛው ፕሌየር ውስጥ ይከፈታሉ
 • ያልተጨመቀው የድሮ ቪዲዮ አክሽን ባር ይታያል"</string>
-  <string name="morphe_tablet_layout_in_player_title">በተጫዋቹ ውስጥ የታብሌት አቀማመጥን አግብር</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - የድሮውን የግርጌ ጽሁፍ ባህሪ መልስ</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - የድሮውን ወደ playlist ማስቀመጫ መልስ</string>

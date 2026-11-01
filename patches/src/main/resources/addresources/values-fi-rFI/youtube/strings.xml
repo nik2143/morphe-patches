@@ -1180,11 +1180,6 @@ Auton asettelu
 • \"Lisää videoita\" -peitekerros ei välttämättä ole käytettävissä
 • Shorts-videot avautuvat tavalliseen soittimeen
 • Vanha videon toimintopalkki näkyy laajennettuna"</string>
-  <string name="morphe_tablet_layout_in_player_title">Ota tablettiasettelun käyttöön soittimessa</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Palauttaa vanhan soittimen ulkoasun
-
-Rajoitus: Jos 'Videon toimintopalkin ulkoasu' ei ole Klassinen, 'Lisää videoita' -kerros ei välttämättä ole käytettävissä"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - Palauta vanha tekstitysten käyttäytyminen</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - Palauta vanhat tallenteet soittimeen</string>
@@ -1546,9 +1541,7 @@ AV1-videon toisto saattaa pätkiä"</string>
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Videon toimintopalkin ulkoasu</string>
   <string name="morphe_video_action_bar_layout_entry_1">Oletus</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Klassinen</string>
   <string name="morphe_video_action_bar_layout_entry_3">Minimaalinen</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Rajoitus: Klassinen palauttaa vanhan tyylin \'Lisää videoita\' -kerroksen</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Soittimen kuvakkeen tyyli</string>
   <string name="morphe_player_icon_style_entry_auto">Automaattinen</string>

@@ -158,6 +158,8 @@ Stažené skladby se zobrazí zde"</string>
   <string name="morphe_music_downloads_track_deleted">Stažená skladba byla smazána</string>
   <string name="morphe_music_downloads_track_delete_failed">Staženou skladbu se nepodařilo smazat</string>
   <string name="morphe_music_downloads_play_failed">Staženou skladbu se nepodařilo přehrát</string>
+  <string name="morphe_music_downloads_playlists">Playlisty</string>
+  <string name="morphe_music_downloads_playlist_save">Uložit</string>
   <string name="morphe_music_downloads_notification_channel">Stahování zvuku</string>
   <string name="morphe_music_downloads_playback_channel">Offline přehrávání</string>
   <string name="morphe_music_downloads_unknown_track">Nepodařilo se identifikovat skladbu ke stažení</string>

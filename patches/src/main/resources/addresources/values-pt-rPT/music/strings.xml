@@ -158,6 +158,9 @@ As faixas baixadas aparecem aqui"</string>
   <string name="morphe_music_downloads_track_deleted">Download excluído</string>
   <string name="morphe_music_downloads_track_delete_failed">Não foi possível excluir o download</string>
   <string name="morphe_music_downloads_play_failed">Não foi possível reproduzir o download</string>
+  <string name="morphe_music_downloads_playlists">Listas de reprodução</string>
+  <string name="morphe_music_downloads_playlist_rename">Mudar o nome</string>
+  <string name="morphe_music_downloads_playlist_save">Guardar</string>
   <string name="morphe_music_downloads_notification_channel">Downloads de áudio</string>
   <string name="morphe_music_downloads_playback_channel">Reprodução offline</string>
   <string name="morphe_music_downloads_unknown_track">Não foi possível identificar a faixa para baixar</string>

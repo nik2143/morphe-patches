@@ -158,6 +158,8 @@ Heruntergeladene Titel erscheinen hier"</string>
   <string name="morphe_music_downloads_track_deleted">Download gelöscht</string>
   <string name="morphe_music_downloads_track_delete_failed">Der Download konnte nicht gelöscht werden</string>
   <string name="morphe_music_downloads_play_failed">Der Download konnte nicht abgespielt werden</string>
+  <string name="morphe_music_downloads_playlists">Playlisten</string>
+  <string name="morphe_music_downloads_playlist_save">Speichern</string>
   <string name="morphe_music_downloads_notification_channel">Audio-Downloads</string>
   <string name="morphe_music_downloads_playback_channel">Offline-Wiedergabe</string>
   <string name="morphe_music_downloads_unknown_track">Der Titel zum Herunterladen konnte nicht identifiziert werden</string>

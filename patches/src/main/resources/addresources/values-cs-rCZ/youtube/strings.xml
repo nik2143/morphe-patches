@@ -1178,11 +1178,6 @@ Automobilní rozvržení
 • Překryv „Více videí“ nemusí být k dispozici
 • Shorts se otevírají v běžném přehrávači
 • Zobrazuje se starý nerozbalený panel akcí videa"</string>
-  <string name="morphe_tablet_layout_in_player_title">Povolit rozložení tabletu v přehrávači</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Obnoví starý rozvržení přehrávače
-
-Omezení: Pokud není 'Rozvržení lišty akcí videa' nastaveno na Klasické, překryv 'Další videa' nemusí být dostupný"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - Obnovit staré chování titulků</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - Obnoví staré uložení zpět do seznamu přehrávání</string>
@@ -1544,9 +1539,7 @@ Přehrávání videa s AV1 se může sekat nebo můžou vypadávat snímky"</str
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Rozvržení lišty akcí videa</string>
   <string name="morphe_video_action_bar_layout_entry_1">Výchozí</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Klasické</string>
   <string name="morphe_video_action_bar_layout_entry_3">Minimální</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Omezení: Klasické vrací překryv \'Další videa\' do starého stylu</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Styl ikon přehrávače</string>
   <string name="morphe_player_icon_style_entry_auto">Automaticky</string>

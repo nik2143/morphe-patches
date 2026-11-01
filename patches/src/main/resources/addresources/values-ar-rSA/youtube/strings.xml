@@ -1184,11 +1184,6 @@ Mistral Nemo هو الخيار الأرخص، بينما توفر Gemma 4 أعل
 • قد لا تتوفر واجهات 'مزيد من الفيديوهات'
 • تفتح فيديوهات Shorts في المشغل العادي
 • يظهر شريط إجراءات الفيديو القديم غير المطوي"</string>
-  <string name="morphe_tablet_layout_in_player_title">تمكين تخطيط الجهاز اللوحي في المشغل</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"استعادة تخطيط المشغل القديم
-
-القيود: إذا لم يكن \"تخطيط شريط إجراءات الفيديو\" كلاسيكيًا، فقد لا يتوفر عنصر \"المزيد من الفيديوهات\" التراكبي"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - استعادة سلوك الترجمة القديم</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - استعادة الحفظ القديم إلى قائمة التشغيل</string>
@@ -1550,9 +1545,7 @@ AVC (H.264)
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">تخطيط شريط إجراءات الفيديو</string>
   <string name="morphe_video_action_bar_layout_entry_1">الوضع الافتراضي</string>
-  <string name="morphe_video_action_bar_layout_entry_2">كلاسيكي</string>
   <string name="morphe_video_action_bar_layout_entry_3">بسيط</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">القيود: يعود النمط الكلاسيكي إلى نمط عنصر \"المزيد من الفيديوهات\" التراكبي القديم</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">نمط أيقونة المشغّل</string>
   <string name="morphe_player_icon_style_entry_auto">تلقائي</string>

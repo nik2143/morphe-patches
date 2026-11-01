@@ -158,6 +158,8 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">ダウンロードを削除しました</string>
   <string name="morphe_music_downloads_track_delete_failed">ダウンロードを削除できませんでした</string>
   <string name="morphe_music_downloads_play_failed">ダウンロードを再生できませんでした</string>
+  <string name="morphe_music_downloads_playlists">再生リスト</string>
+  <string name="morphe_music_downloads_playlist_save">適用</string>
   <string name="morphe_music_downloads_notification_channel">音声ダウンロード</string>
   <string name="morphe_music_downloads_playback_channel">オフライン再生</string>
   <string name="morphe_music_downloads_unknown_track">ダウンロードする楽曲を特定できませんでした</string>

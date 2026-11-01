@@ -1180,11 +1180,6 @@ Second \"item\" text"</string>
 • 「更多影片」疊加層可能不可用
 • Shorts 將在一般播放器中開啟
 • 顯示未摺疊的舊版影片動作欄"</string>
-  <string name="morphe_tablet_layout_in_player_title">在播放器中啟用平板版面配置</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"還原舊版的播放器版面配置
-
-限制：若「影片操作列版面配置」非為「傳統」，則「更多影片」疊層可能無法使用"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - 恢復舊版字幕行為</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - 復原舊版播放清單</string>
@@ -1543,11 +1538,9 @@ AV1 視訊播放可能會卡頓或丟格"</string>
   <string name="morphe_spoof_video_streams_player_js_variant_title">播放器 JavaScript 變種</string>
   <string name="morphe_spoof_video_streams_stats_for_nerds_title">在「Stats for nerds」中顯示偽造狀態</string>
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
-  <string name="morphe_video_action_bar_layout_title">影片操作列版面配置</string>
+  <string name="morphe_video_action_bar_layout_title">影片操作列版面組態</string>
   <string name="morphe_video_action_bar_layout_entry_1">預設</string>
-  <string name="morphe_video_action_bar_layout_entry_2">傳統</string>
-  <string name="morphe_video_action_bar_layout_entry_3">極簡</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">限制：「傳統」會還原至舊款的「更多影片」疊層</string>
+  <string name="morphe_video_action_bar_layout_entry_3">精簡</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">播放器圖示樣式</string>
   <string name="morphe_player_icon_style_entry_auto">自動</string>

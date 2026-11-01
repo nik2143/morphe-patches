@@ -158,6 +158,7 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">Изтеглянето е изтрито</string>
   <string name="morphe_music_downloads_track_delete_failed">Не можа да се изтрие изтеглянето</string>
   <string name="morphe_music_downloads_play_failed">Не можа да се пусне изтеглянето</string>
+  <string name="morphe_music_downloads_playlist_save">Запази</string>
   <string name="morphe_music_downloads_notification_channel">Аудио изтегляния</string>
   <string name="morphe_music_downloads_playback_channel">Офлайн възпроизвеждане</string>
   <string name="morphe_music_downloads_unknown_track">Не можа да се идентифицира песента за изтегляне</string>

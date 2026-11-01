@@ -158,6 +158,8 @@ Gedownloade nummers verschijnen hier"</string>
   <string name="morphe_music_downloads_track_deleted">Download verwijderd.</string>
   <string name="morphe_music_downloads_track_delete_failed">Kan de download niet verwijderen.</string>
   <string name="morphe_music_downloads_play_failed">Kan de download niet afspelen.</string>
+  <string name="morphe_music_downloads_playlists">Afspeellijsten</string>
+  <string name="morphe_music_downloads_playlist_save">Opslaan</string>
   <string name="morphe_music_downloads_notification_channel">Audiodownloads</string>
   <string name="morphe_music_downloads_playback_channel">Offline afspelen</string>
   <string name="morphe_music_downloads_unknown_track">Kan het te downloaden nummer niet identificeren.</string>

@@ -1180,11 +1180,6 @@ Second \"item\" text"</string>
 • ייתכן ששכבת העל 'סרטונים נוספים' לא תהיה זמינה
 • סרטונים קצרים נפתחים בנגן הרגיל
 • יישור הפעולה הישן לא המקופל של הסרטון מוצג"</string>
-  <string name="morphe_tablet_layout_in_player_title">הפעל פריסת טאבלט בנגן</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"משחזר את פריסת הנגן הישנה
-
-מגבלה: אם \"פריסת סרגל פעולות של סרטון\" אינה קלאסית, ייתכן ששכבת \"סרטונים נוספים\" לא תהיה זמינה"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - שחזור התנהגות הכתוביות הישנה</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - שחזר שפופרות ישנות לפלייליסט</string>
@@ -1546,9 +1541,7 @@ AVC (H.264)
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">פריסת סרגל פעולות של סרטון</string>
   <string name="morphe_video_action_bar_layout_entry_1">ברירת מחדל</string>
-  <string name="morphe_video_action_bar_layout_entry_2">קלאסי</string>
   <string name="morphe_video_action_bar_layout_entry_3">מינימלי</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">מגבלה: מצב קלאסי מחזיר את שכבת \"סרטונים נוספים\" לסגנון הישן</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">סגנון סמל הנגן</string>
   <string name="morphe_player_icon_style_entry_auto">אוטומטי</string>

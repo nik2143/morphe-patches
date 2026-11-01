@@ -158,6 +158,9 @@ A letöltött számok itt jelennek meg"</string>
   <string name="morphe_music_downloads_track_deleted">Letöltés törölve</string>
   <string name="morphe_music_downloads_track_delete_failed">Nem sikerült törölni a letöltést</string>
   <string name="morphe_music_downloads_play_failed">Nem sikerült lejátszani a letöltést</string>
+  <string name="morphe_music_downloads_playlists">Lejátszási listák</string>
+  <string name="morphe_music_downloads_playlist_rename">Átnevezés</string>
+  <string name="morphe_music_downloads_playlist_save">Mentés</string>
   <string name="morphe_music_downloads_notification_channel">Audió-letöltések</string>
   <string name="morphe_music_downloads_playback_channel">Offline lejátszás</string>
   <string name="morphe_music_downloads_unknown_track">Nem sikerült azonosítani a letöltendő számot</string>

@@ -1180,11 +1180,6 @@ Second \"item\" text"</string>
 • ภาพซ้อนทับ 'วิดีโอเพิ่มเติม' อาจไม่ปรากฏ
 • Shorts จะเปิดในเครื่องเล่นปกติ
 • แถบดำเนินการวิดีโอแบบเก่าที่ไม่ยุบจะแสดง"</string>
-  <string name="morphe_tablet_layout_in_player_title">เปิดใช้งานรูปแบบแท็บเล็ตในเครื่องเล่น</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"คืนรูปแบบเครื่องเล่นแบบเก่า
-
-ข้อจำกัด: หาก 'รูปแบบแถบการทำงานของวิดีโอ' ไม่ใช่แบบคลาสสิก ภาพซ้อนทับ 'วิดีโอเพิ่มเติม' อาจใช้งานไม่ได้"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - กู้คืนพฤติกรรมคำบรรยายแบบเดิม</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - คืนค่าไอคอนเครื่องเล่น Shorts เก่า</string>
@@ -1546,9 +1541,7 @@ AVC (H.264)
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">รูปแบบแถบการทำงานของวิดีโอ</string>
   <string name="morphe_video_action_bar_layout_entry_1">ค่าเริ่มต้นThe</string>
-  <string name="morphe_video_action_bar_layout_entry_2">คลาสสิก</string>
   <string name="morphe_video_action_bar_layout_entry_3">น้อยที่สุด</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">ข้อจำกัด: แบบคลาสสิกจะกลับไปใช้ภาพซ้อนทับ \'วิดีโอเพิ่มเติม\' รูปแบบเก่า</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">สไตล์ไอคอนเครื่องเล่น</string>
   <string name="morphe_player_icon_style_entry_auto">อัตโนมัติ</string>

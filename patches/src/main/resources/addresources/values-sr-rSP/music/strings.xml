@@ -158,6 +158,8 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">Преузимање је избрисано</string>
   <string name="morphe_music_downloads_track_delete_failed">Брисање преузимања није успело</string>
   <string name="morphe_music_downloads_play_failed">Репродукција преузимања није успела</string>
+  <string name="morphe_music_downloads_playlists">Плејлисте</string>
+  <string name="morphe_music_downloads_playlist_save">Сачувај</string>
   <string name="morphe_music_downloads_notification_channel">Аудио преузимања</string>
   <string name="morphe_music_downloads_playback_channel">Офлајн репродукција</string>
   <string name="morphe_music_downloads_unknown_track">Није могуће идентификовати нумеру за преузимање</string>

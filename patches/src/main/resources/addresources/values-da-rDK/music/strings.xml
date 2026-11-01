@@ -157,6 +157,8 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">Download slettet</string>
   <string name="morphe_music_downloads_track_delete_failed">Kunne ikke slette downloadet</string>
   <string name="morphe_music_downloads_play_failed">Kunne ikke afspille downloadet</string>
+  <string name="morphe_music_downloads_playlists">Playlister</string>
+  <string name="morphe_music_downloads_playlist_save">Gem</string>
   <string name="morphe_music_downloads_notification_channel">Lyddownloads</string>
   <string name="morphe_music_downloads_playback_channel">Offlineafspilning</string>
   <string name="morphe_music_downloads_unknown_track">Kunne ikke identificere sangen, der skal downloades</string>

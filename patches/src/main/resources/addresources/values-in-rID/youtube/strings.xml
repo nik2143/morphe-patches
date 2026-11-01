@@ -1179,11 +1179,6 @@ Tata letak Otomotif
 • Hamparan 'Video lainnya' mungkin tidak tersedia
 • Shorts terbuka di pemutar reguler
 • Bilah tindakan video lama yang tidak diciutkan ditampilkan"</string>
-  <string name="morphe_tablet_layout_in_player_title">Aktifkan tata letak tablet di pemutar</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Mengembalikan tata letak pemutar lama
-
-Batasan: Jika 'Tata letak bilah tindakan video' bukan Klasik, hamparan 'Video lainnya' mungkin tidak tersedia"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - Kembalikan perilaku teks lama</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - Kembalikan penyimpanan lama ke daftar putar</string>
@@ -1545,9 +1540,7 @@ Pemutaran video dengan AV1 dapat tersendat atau kehilangan frame"</string>
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Tata letak bilah tindakan video</string>
   <string name="morphe_video_action_bar_layout_entry_1">Bawaan</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Klasik</string>
   <string name="morphe_video_action_bar_layout_entry_3">Minimalis</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Batasan: Klasik mengembalikan hamparan \'Video lainnya\' ke gaya lama</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Gaya ikon pemutar</string>
   <string name="morphe_player_icon_style_entry_auto">Otomatis</string>

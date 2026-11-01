@@ -158,6 +158,9 @@ Atsisiųsti kūriniai rodomi čia"</string>
   <string name="morphe_music_downloads_track_deleted">Atsisiuntimas ištrintas</string>
   <string name="morphe_music_downloads_track_delete_failed">Nepavyko ištrinti atsisiuntimo</string>
   <string name="morphe_music_downloads_play_failed">Nepavyko atkurti atsisiuntimo</string>
+  <string name="morphe_music_downloads_playlists">Grojarašiai</string>
+  <string name="morphe_music_downloads_playlist_save">Išsaugoti</string>
+  <string name="morphe_music_downloads_playlist_drag_track">Nutempkite norint pertvarkyti</string>
   <string name="morphe_music_downloads_notification_channel">Garso atsisiuntimai</string>
   <string name="morphe_music_downloads_playback_channel">Atkūrimas neprisijungus</string>
   <string name="morphe_music_downloads_unknown_track">Nepavyko nustatyti, kurį kūrinį atsisiųsti</string>

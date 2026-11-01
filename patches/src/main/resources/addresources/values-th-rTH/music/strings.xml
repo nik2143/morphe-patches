@@ -158,6 +158,8 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">ลบรายการดาวน์โหลดแล้ว</string>
   <string name="morphe_music_downloads_track_delete_failed">ไม่สามารถลบรายการดาวน์โหลดได้</string>
   <string name="morphe_music_downloads_play_failed">ไม่สามารถเล่นรายการดาวน์โหลดได้</string>
+  <string name="morphe_music_downloads_playlists">เพลย์ลิสต์</string>
+  <string name="morphe_music_downloads_playlist_save">บันทึก</string>
   <string name="morphe_music_downloads_notification_channel">การดาวน์โหลดเสียง</string>
   <string name="morphe_music_downloads_playback_channel">การเล่นแบบออฟไลน์</string>
   <string name="morphe_music_downloads_unknown_track">ไม่สามารถระบุแทร็กที่จะดาวน์โหลดได้</string>

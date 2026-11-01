@@ -1180,11 +1180,6 @@ Razporeditev za avtomobile
 • Prekrivno okno 'Več videoposnetkov' morda ne bo na voljo
 • Priloge Shorts se odprejo v običajnem predvajalniku
 • Prikaže se nekompaktirana starejša vrstica dejanj za videoposnetke"</string>
-  <string name="morphe_tablet_layout_in_player_title">Omogoči postavitev za tablične računalnike v predvajalniku</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Vrne stari razvored predvajalnika
-
-Omejitev: Če 'Razvored vrstice z akcijami za video' ni Klasičen, morda preklop 'Več videov' ne bo na voljo"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - Obnovi staro obnašanje podnapisov</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - Ponastavi staro shranjevanje v seznam predvajanja</string>
@@ -1546,9 +1541,7 @@ Predvajanje videoposnetkov z AV1 se lahko trza ali izpusti okvire"</string>
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Razvored vrstice z akcijami za video</string>
   <string name="morphe_video_action_bar_layout_entry_1">Privzeto</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Klasičen</string>
   <string name="morphe_video_action_bar_layout_entry_3">Minimalističen</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Omejitev: Klasičen razvored vrne stari slog preklopa \'Več videov\'</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Slog ikon predvajalnika</string>
   <string name="morphe_player_icon_style_entry_auto">Samodejno</string>

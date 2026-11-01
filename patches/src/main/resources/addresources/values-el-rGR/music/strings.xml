@@ -158,6 +158,9 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">Η λήψη διαγράφηκε</string>
   <string name="morphe_music_downloads_track_delete_failed">Δεν ήταν δυνατή η διαγραφή της λήψης</string>
   <string name="morphe_music_downloads_play_failed">Δεν ήταν δυνατή η αναπαραγωγή της λήψης</string>
+  <string name="morphe_music_downloads_playlists">Λίστες αναπαραγωγής</string>
+  <string name="morphe_music_downloads_playlist_save">Αποθήκευση</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">Τέλος</string>
   <string name="morphe_music_downloads_notification_channel">Λήψεις ήχου</string>
   <string name="morphe_music_downloads_playback_channel">Αναπαραγωγή εκτός σύνδεσης</string>
   <string name="morphe_music_downloads_unknown_track">Δεν ήταν δυνατή η αναγνώριση του κομματιού προς λήψη</string>

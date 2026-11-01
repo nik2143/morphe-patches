@@ -1181,11 +1181,6 @@ Automobilen diseinua
 • 'Bideo gehiago' overlay-a agian ez dago eskuragarri
 • Shorts-ak erreproduzitzaile ohikoan irekitzen dira
 • Bideo zaharren ekintza-barra ez dagoたたtuta"</string>
-  <string name="morphe_tablet_layout_in_player_title">Aktibu tabletaren disenuat playback-ean</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Sekoagarri zaharkatutako layout-a berreskuratzen du
-
-Mugaltzea: 'Bideo ekintza-barra layout-a' ez bada Klasikoa, 'Bideo gehiago' overlay-a agian ez own eskuragarri"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - Lehengo kaptuen jokapenari itzuli</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - Lorekin gorde zen save zaharra playlistera itzuli</string>
@@ -1547,9 +1542,7 @@ AV1-ekin bideoen erreprodukzioa jolten badau edo frame-ak galdu ditzake"</string
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Bideo ekintza-barra layout-a</string>
   <string name="morphe_video_action_bar_layout_entry_1">Lehenutsia</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Klasikoa</string>
   <string name="morphe_video_action_bar_layout_entry_3">Minimalista</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Mugaltzea: Klasikoak \'Bideo gehiago\' overlay estilo zaharrera ekartzen du</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Atarijoko ikonoen estiloa</string>
   <string name="morphe_player_icon_style_entry_auto">Automatikoa</string>

@@ -157,6 +157,8 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">Download eliminato</string>
   <string name="morphe_music_downloads_track_delete_failed">Impossibile eliminare il download</string>
   <string name="morphe_music_downloads_play_failed">Impossibile riprodurre il download</string>
+  <string name="morphe_music_downloads_playlists">Playlist</string>
+  <string name="morphe_music_downloads_playlist_save">Salva</string>
   <string name="morphe_music_downloads_notification_channel">Download audio</string>
   <string name="morphe_music_downloads_playback_channel">Riproduzione offline</string>
   <string name="morphe_music_downloads_unknown_track">Impossibile identificare la traccia da scaricare</string>

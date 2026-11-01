@@ -158,6 +158,9 @@ Lagu yang diunduh akan muncul di sini"</string>
   <string name="morphe_music_downloads_track_deleted">Unduhan dihapus</string>
   <string name="morphe_music_downloads_track_delete_failed">Tidak dapat menghapus unduhan</string>
   <string name="morphe_music_downloads_play_failed">Tidak dapat memutar unduhan</string>
+  <string name="morphe_music_downloads_playlists">Daftar Putar</string>
+  <string name="morphe_music_downloads_playlist_save">Simpan</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">Selesai</string>
   <string name="morphe_music_downloads_notification_channel">Unduhan audio</string>
   <string name="morphe_music_downloads_playback_channel">Pemutaran offline</string>
   <string name="morphe_music_downloads_unknown_track">Tidak dapat mengidentifikasi lagu untuk diunduh</string>

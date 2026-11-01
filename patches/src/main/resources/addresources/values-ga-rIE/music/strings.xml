@@ -158,6 +158,11 @@ Feictear rianta íoslódáilte anseo"</string>
   <string name="morphe_music_downloads_track_deleted">Íoslódáil scriosta</string>
   <string name="morphe_music_downloads_track_delete_failed">Níorbh fhéidir an íoslódáil a scriosadh</string>
   <string name="morphe_music_downloads_play_failed">Níorbh fhéidir an íoslódáil a sheinm</string>
+  <string name="morphe_music_downloads_playlists">Seinmliostaí</string>
+  <string name="morphe_music_downloads_playlist_rename">Athainmnigh</string>
+  <string name="morphe_music_downloads_playlist_save">Sábháil</string>
+  <string name="morphe_music_downloads_playlist_drag_track">Tarraing chun athordú</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">Déanta</string>
   <string name="morphe_music_downloads_notification_channel">Íoslódálacha fuaime</string>
   <string name="morphe_music_downloads_playback_channel">Athsheinm as líne</string>
   <string name="morphe_music_downloads_unknown_track">Níorbh fhéidir an rian le híoslódáil a aithint</string>

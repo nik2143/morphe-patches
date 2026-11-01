@@ -1178,11 +1178,6 @@ Automotive layout
 • Maaaring hindi available ang overlay na 'Higit pang mga video'
 • Ang mga Shorts ay bumubukas sa regular na player
 • Ipinapakita ang lumang video action bar na hindi collapsed"</string>
-  <string name="morphe_tablet_layout_in_player_title">Paganahin ang layout ng tablet sa player</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Ibinabalik ang lumang layout ng player
-
-Limitasyon: Kung ang 'Layout ng video action bar' ay hindi Classic, maaaring hindi available ang overlay na 'Higit pang mga video'"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - Ibalik ang dating pag-uugali ng mga caption</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - Ibalik ang lumang save sa playlist</string>
@@ -1544,9 +1539,7 @@ Ang video playback na may AV1 ay maaaring mag-stutter o mag-drop ng frames"</str
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Layout ng video action bar</string>
   <string name="morphe_video_action_bar_layout_entry_1">Awtomatiko</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Klasiko</string>
   <string name="morphe_video_action_bar_layout_entry_3">Minimal</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Limitasyon: Ang Classic ay bumabalik sa lumang estilo ng overlay na \'Higit pang mga video\'</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Estilo ng icon ng player</string>
   <string name="morphe_player_icon_style_entry_auto">Awtomatiko</string>

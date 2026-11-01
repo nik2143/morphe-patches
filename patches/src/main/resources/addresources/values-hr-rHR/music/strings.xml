@@ -158,6 +158,11 @@ Ovdje se prikazuju preuzete pjesme"</string>
   <string name="morphe_music_downloads_track_deleted">Preuzimanje izbrisano</string>
   <string name="morphe_music_downloads_track_delete_failed">Preuzimanje nije moguće izbrisati</string>
   <string name="morphe_music_downloads_play_failed">Preuzimanje nije moguće reproducirati</string>
+  <string name="morphe_music_downloads_playlists">Popisi za reprodukciju</string>
+  <string name="morphe_music_downloads_playlist_rename">Preimenuj</string>
+  <string name="morphe_music_downloads_playlist_save">Spremi</string>
+  <string name="morphe_music_downloads_playlist_drag_track">Povucite za promjenu redoslijeda</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">Gotovo</string>
   <string name="morphe_music_downloads_notification_channel">Audio preuzimanja</string>
   <string name="morphe_music_downloads_playback_channel">Izvanmrežna reprodukcija</string>
   <string name="morphe_music_downloads_unknown_track">Nije moguće identificirati pjesmu za preuzimanje</string>

@@ -1180,11 +1180,6 @@ Automobilio išdėstymas
 • „Daugiau video“ persegimas gali būti neprieinamas
 • „Shorts“ atidaromi reguliariame grotuve
 • Rodo nesutrauktą senosios veiksmų juostos vaizdo įrašo"</string>
-  <string name="morphe_tablet_layout_in_player_title">Įjungti planšetės išdėstymą grotuve</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Atkuria senąjį spustyklio išdėvėjimo būdą
-
-Apribojimas: jei „Vaizdo įrašo veiksmų juostos išdėvėjimas“ nėra klasikinio tipo, gali būti neprieinamas „Daugiau vaizdo įrašų“ sluoksnis"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 – Atkurti senąją subtitrų elgseną</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 – atkurti senąjį išsaugojimą į grojaraštį</string>
@@ -1546,9 +1541,7 @@ Vaizdo įrašų atkūrimas su AV1 gali strigti arba praleisti kadras"</string>
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Vaizdo įrašo veiksmų juostos išdėvėjimas</string>
   <string name="morphe_video_action_bar_layout_entry_1">Numatytasis</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Klasikinis</string>
   <string name="morphe_video_action_bar_layout_entry_3">Minimalistinis</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Apribojimas: Klasikinis grąžina senąjį „Daugiau vaizdo įrašų“ sluoksnio stilių</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Leistuvės piktogramos stilius</string>
   <string name="morphe_player_icon_style_entry_auto">Automatinis</string>

@@ -158,6 +158,9 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">ডাউনলোডটি মুছে ফেলা হয়েছে</string>
   <string name="morphe_music_downloads_track_delete_failed">ডাউনলোডটি মুছে ফেলা যায়নি</string>
   <string name="morphe_music_downloads_play_failed">ডাউনলোডটি চালানো যায়নি</string>
+  <string name="morphe_music_downloads_playlists">চ্লাস ন৊টিস্য়াসেগ</string>
+  <string name="morphe_music_downloads_playlist_save">সংরক্ষণ করুন</string>
+  <string name="morphe_music_downloads_playlist_drag_track">নতুন করে সাজাতে টেনে আনুন</string>
   <string name="morphe_music_downloads_notification_channel">অডিও ডাউনলোড</string>
   <string name="morphe_music_downloads_playback_channel">অফলাইন প্লেব্যাক</string>
   <string name="morphe_music_downloads_unknown_track">ডাউনলোড করার জন্য ট্র্যাকটি শনাক্ত করা যায়নি</string>

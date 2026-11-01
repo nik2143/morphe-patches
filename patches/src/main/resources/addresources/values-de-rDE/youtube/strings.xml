@@ -1181,11 +1181,6 @@ Automobil-Layout
 • Das Overlay \"Weitere Videos\" ist möglicherweise nicht verfügbar
 • Shorts öffnen sich im regulären Player
 • Nicht zusammengeklappte alte Video-Aktionsleiste wird angezeigt"</string>
-  <string name="morphe_tablet_layout_in_player_title">Tablet-Layout im Player aktivieren</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Stellt das alte Player-Layout wieder her
-
-Einschränkung: Wenn das „Video-Aktionsleisten-Layout“ nicht auf „Klassisch“ steht, ist das Overlay „Weitere Videos“ möglicherweise nicht verfügbar"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - Altes Untertitelverhalten wiederherstellen</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - Alte Shorts Spielersymbole wiederherstellen</string>
@@ -1547,9 +1542,7 @@ Die Videowiedergabe mit AV1 kann stottern oder Bilder überspringen"</string>
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Video-Aktionsleisten-Layout</string>
   <string name="morphe_video_action_bar_layout_entry_1">Standard</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Klassisch</string>
   <string name="morphe_video_action_bar_layout_entry_3">Minimalistisch</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Einschränkung: „Klassisch“ stellt das alte Overlay „Weitere Videos“ wieder her</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Stil der Player-Symbole</string>
   <string name="morphe_player_icon_style_entry_auto">Automatisch</string>

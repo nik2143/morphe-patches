@@ -158,6 +158,8 @@ Preuzete numere se pojavljuju ovde"</string>
   <string name="morphe_music_downloads_track_deleted">Preuzimanje je obrisano</string>
   <string name="morphe_music_downloads_track_delete_failed">Preuzimanje nije moglo da se obriše</string>
   <string name="morphe_music_downloads_play_failed">Preuzimanje nije moglo da se reprodukuje</string>
+  <string name="morphe_music_downloads_playlists">Plejliste</string>
+  <string name="morphe_music_downloads_playlist_save">Sačuvaj</string>
   <string name="morphe_music_downloads_notification_channel">Audio preuzimanja</string>
   <string name="morphe_music_downloads_playback_channel">Vanmrežna reprodukcija</string>
   <string name="morphe_music_downloads_unknown_track">Nije moguće identifikovati numeru za preuzimanje</string>

@@ -158,6 +158,8 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">ההורדה נמחקה</string>
   <string name="morphe_music_downloads_track_delete_failed">לא ניתן היה למחוק את ההורדה</string>
   <string name="morphe_music_downloads_play_failed">לא ניתן היה להפעיל את ההורדה</string>
+  <string name="morphe_music_downloads_playlists">פלייליסטים</string>
+  <string name="morphe_music_downloads_playlist_save">שמור</string>
   <string name="morphe_music_downloads_notification_channel">הורדות אודיו</string>
   <string name="morphe_music_downloads_playback_channel">השמעה לא מקוונת</string>
   <string name="morphe_music_downloads_unknown_track">לא ניתן היה לזהות את השיר להורדה</string>

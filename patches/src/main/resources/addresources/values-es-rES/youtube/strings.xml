@@ -1179,11 +1179,6 @@ Diseño para automóviles
 • La superposición «Más vídeos» puede no estar disponible
 • Los Shorts se abren en el reproductor normal
 • Se muestra la antigua barra de acciones de vídeo sin colapsar"</string>
-  <string name="morphe_tablet_layout_in_player_title">Habilitar diseño para tablet en el reproductor</string>
-  <!-- "Video action bar layout" must be translated the same as morphe_video_action_bar_layout_title -->
-  <string name="morphe_tablet_layout_in_player_summary">"Restaura el diseño antiguo del reproductor
-
-Limitación: si el \"Diseño de la barra de acciones de vídeo\" no es Clásico, es posible que la superposición \"Más vídeos\" no esté disponible"</string>
   <!-- misc.spoof.appversion.spoofAppVersionPatch -->
   <string name="morphe_spoof_app_version_target_entry_21_11">21.11.48 - Restaurar comportamiento antiguo de los subtítulos</string>
   <string name="morphe_spoof_app_version_target_entry_20_39">20.39.41 - Restaurar guardado antiguo de lista de reproducción</string>
@@ -1544,10 +1539,11 @@ La reproducción de vídeo con AV1 se puede atascar o perder fotogramas"</string
   <string name="morphe_spoof_video_streams_stats_for_nerds_title">Mostrar la falsificación en \'Estadísticas avanzadas\'</string>
   <!-- misc.fix.videoactionbar.restoreOldVideoActionBarPatch -->
   <string name="morphe_video_action_bar_layout_title">Diseño de la barra de acciones de vídeo</string>
-  <string name="morphe_video_action_bar_layout_entry_1">Predeterminada</string>
-  <string name="morphe_video_action_bar_layout_entry_2">Clásico</string>
-  <string name="morphe_video_action_bar_layout_entry_3">Mínimo</string>
-  <string name="morphe_video_action_bar_layout_user_dialog_message">Limitación: la opción Clásico vuelve a la superposición de \"Más vídeos\" del estilo antiguo</string>
+  <string name="morphe_video_action_bar_layout_entry_1">Predeterminado</string>
+  <string name="morphe_video_action_bar_layout_entry_2">Clásico de una fila</string>
+  <string name="morphe_video_action_bar_layout_entry_3">Minimalista</string>
+  <string name="morphe_video_action_bar_layout_entry_4">Clásico de dos filas</string>
+  <string name="morphe_video_action_bar_layout_user_dialog_message">Limitación: Los diseños clásicos vuelven a la superposición de estilo antiguo «Más vídeos»</string>
   <!-- layout.player.icons.playerIconStylePatch -->
   <string name="morphe_player_icon_style_title">Estilo de iconos del reproductor</string>
   <string name="morphe_player_icon_style_entry_auto">Automático</string>

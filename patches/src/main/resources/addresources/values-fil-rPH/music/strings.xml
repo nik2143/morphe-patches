@@ -158,6 +158,9 @@ Lalabas dito ang mga na-download na track"</string>
   <string name="morphe_music_downloads_track_deleted">Natanggal ang download</string>
   <string name="morphe_music_downloads_track_delete_failed">Hindi matanggal ang download</string>
   <string name="morphe_music_downloads_play_failed">Hindi ma-play ang download</string>
+  <string name="morphe_music_downloads_playlists">Talatugtugin</string>
+  <string name="morphe_music_downloads_playlist_rename">Palitan</string>
+  <string name="morphe_music_downloads_playlist_save">I-save</string>
   <string name="morphe_music_downloads_notification_channel">Mga audio download</string>
   <string name="morphe_music_downloads_playback_channel">Offline na playback</string>
   <string name="morphe_music_downloads_unknown_track">Hindi matukoy ang track na i-download</string>

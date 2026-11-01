@@ -158,6 +158,9 @@ As pistas descargadas aparecen aquí"</string>
   <string name="morphe_music_downloads_track_deleted">Descarga eliminada</string>
   <string name="morphe_music_downloads_track_delete_failed">Non foi posible borrar a descarga</string>
   <string name="morphe_music_downloads_play_failed">Non foi posible reproducir a descarga</string>
+  <string name="morphe_music_downloads_playlists">Listas de reprodución</string>
+  <string name="morphe_music_downloads_playlist_save">Gardar</string>
+  <string name="morphe_music_downloads_playlist_drag_track">Arrastra para reordenar</string>
   <string name="morphe_music_downloads_notification_channel">Descargas de audio</string>
   <string name="morphe_music_downloads_playback_channel">Reprodución sen conexión</string>
   <string name="morphe_music_downloads_unknown_track">Non se puido identificar a pista para descargar</string>

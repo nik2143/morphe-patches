@@ -158,6 +158,9 @@ Second \"item\" text"</string>
   <string name="morphe_music_downloads_track_deleted">Загрузка удалена</string>
   <string name="morphe_music_downloads_track_delete_failed">Не удалось удалить загрузку</string>
   <string name="morphe_music_downloads_play_failed">Не удалось воспроизвести загрузку</string>
+  <string name="morphe_music_downloads_playlists">Плейлисты</string>
+  <string name="morphe_music_downloads_playlist_rename">Переименовать</string>
+  <string name="morphe_music_downloads_playlist_save">Сохранить</string>
   <string name="morphe_music_downloads_notification_channel">Аудиозагрузки</string>
   <string name="morphe_music_downloads_playback_channel">Офлайн-воспроизведение</string>
   <string name="morphe_music_downloads_unknown_track">Не удалось определить трек для скачивания</string>

@@ -158,6 +158,9 @@ Allalaaditud palad ilmuvad siia"</string>
   <string name="morphe_music_downloads_track_deleted">Allalaadimine kustutatud</string>
   <string name="morphe_music_downloads_track_delete_failed">Allalaaditut ei õnnestunud kustutada</string>
   <string name="morphe_music_downloads_play_failed">Allalaaditut ei õnnestunud esitada</string>
+  <string name="morphe_music_downloads_playlists">Esitusloendid</string>
+  <string name="morphe_music_downloads_playlist_rename">Muuda nimi</string>
+  <string name="morphe_music_downloads_playlist_reorder_done">Valmis</string>
   <string name="morphe_music_downloads_notification_channel">Helifailide allalaadimised</string>
   <string name="morphe_music_downloads_playback_channel">Võrguühenduseta taasesitus</string>
   <string name="morphe_music_downloads_unknown_track">Allalaaditavat lugu ei õnnestunud tuvastada</string>
