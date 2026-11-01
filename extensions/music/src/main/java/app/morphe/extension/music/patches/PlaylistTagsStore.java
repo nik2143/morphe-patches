@@ -284,7 +284,8 @@ final class PlaylistTagsStore {
     }
 
     /**
-     * @return If the playlist is hidden by the current tag filter.
+     * @return If the playlist is hidden by the current tag filter. A playlist is hidden
+     *         only when all of its tags are hidden, so a visible tag keeps it shown.
      */
     static synchronized boolean isPlaylistHidden(String playlistId) {
         loadIfNeeded();
@@ -292,11 +293,11 @@ final class PlaylistTagsStore {
         if (!onlyTag.isEmpty()) {
             return set == null || !set.contains(onlyTag);
         }
-        if (set == null) return false;
+        if (set == null || set.isEmpty()) return false;
         for (String tag : set) {
-            if (Boolean.TRUE.equals(tags.get(tag))) return true;
+            if (!Boolean.TRUE.equals(tags.get(tag))) return false;
         }
-        return false;
+        return true;
     }
 
     /**
