@@ -272,6 +272,18 @@ final class PlaylistTagsStore {
         return set == null ? Collections.emptySet() : new LinkedHashSet<>(set);
     }
 
+    /**
+     * @return How many playlists have a tag.
+     */
+    static synchronized int getPlaylistCount(String tag) {
+        loadIfNeeded();
+        int count = 0;
+        for (Set<String> set : playlistTags.values()) {
+            if (set.contains(tag)) count++;
+        }
+        return count;
+    }
+
     static synchronized void setPlaylistTags(String playlistId, Set<String> names) {
         loadIfNeeded();
         Set<String> set = new LinkedHashSet<>();

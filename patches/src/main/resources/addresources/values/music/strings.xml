@@ -331,7 +331,9 @@ SABR playback (Spoof video streams turned off)"</string>
     <!-- %s is the name of the playlist. -->
     <string name="morphe_music_playlist_tags_assign_title">Tags for %s</string>
     <string name="morphe_music_playlist_tags_new_tag_hint">New tag</string>
-    <string name="morphe_music_playlist_tags_add">Add</string>
+    <string name="morphe_music_playlist_tags_playlist_count_one">1 playlist</string>
+    <!-- %s is the number of playlists that have the tag. -->
+    <string name="morphe_music_playlist_tags_playlist_count">%s playlists</string>
     <!-- %s is the name of the tag. -->
     <string name="morphe_music_playlist_tags_tag_exists">A tag named %s already exists</string>
     <string name="morphe_music_playlist_tags_filter_title">Filter by tag</string>
