@@ -86,11 +86,9 @@ public final class PlaylistTagsDialogs {
             SheetBottomDialog.DraggableLinearLayout mainLayout = SheetBottomDialog.createMainLayout(
                     context, Utils.isDarkModeEnabled() ? SHEET_DARK_COLOR : null);
 
-            TextView title = createText(context, str("morphe_music_playlist_tags_assign_title",
+            TextView title = createLineText(context, str("morphe_music_playlist_tags_assign_title",
                     PlaylistTagsStore.getPlaylistTitle(playlistId)), 20);
             title.setTypeface(Typeface.DEFAULT_BOLD);
-            title.setSingleLine(true);
-            title.setEllipsize(TextUtils.TruncateAt.END);
             title.setPadding(Dim.dp16, Dim.dp16, Dim.dp16, Dim.dp16);
             mainLayout.addView(title);
 
@@ -138,7 +136,7 @@ public final class PlaylistTagsDialogs {
     private static View createTagRow(Context context, String tag, Set<String> original, Set<String> selected) {
         // Playlists other than this one that have the tag.
         int otherPlaylists = PlaylistTagsStore.getPlaylistCount(tag) - (original.contains(tag) ? 1 : 0);
-        TextView summary = createText(context, "", 14);
+        TextView summary = createSummaryText(context, "", 14);
         View check = createIcon(context, "yt_outline_check_vd_theme_24", "✓");
         check.setBackground(null);
 
@@ -408,6 +406,8 @@ public final class PlaylistTagsDialogs {
 
     /**
      * A row of the sheet to tag a playlist: an icon, a title, an optional summary and an optional view at the end.
+     *
+     * @param summary A text of {@link #createSummaryText}, which the caller may update.
      */
     private static View createSheetRow(Context context, View icon, String title, @Nullable TextView summary,
                                        @Nullable View end, Runnable onClick) {
@@ -427,16 +427,8 @@ public final class PlaylistTagsDialogs {
         textsParams.setMarginStart(Dim.dp16);
         row.addView(texts, textsParams);
 
-        TextView titleView = createText(context, title, 16);
-        titleView.setSingleLine(true);
-        titleView.setEllipsize(TextUtils.TruncateAt.END);
-        texts.addView(titleView);
-        if (summary != null) {
-            summary.setAlpha(0.7f);
-            summary.setSingleLine(true);
-            summary.setEllipsize(TextUtils.TruncateAt.END);
-            texts.addView(summary);
-        }
+        texts.addView(createLineText(context, title, 16));
+        if (summary != null) texts.addView(summary);
 
         if (end != null) {
             row.addView(end, new LinearLayout.LayoutParams(Dim.dp48, Dim.dp48));
@@ -452,14 +444,7 @@ public final class PlaylistTagsDialogs {
                 onOk, onCancel, neutralText, onNeutral, true);
 
         // Limit the height, so the buttons stay on screen with many tags or playlists.
-        // Measured on every layout, because tags can be added while the dialog is shown.
-        ScrollView scroll = new ScrollView(context) {
-            @Override
-            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                super.onMeasure(widthMeasureSpec,
-                        View.MeasureSpec.makeMeasureSpec(Dim.pctHeight(55), View.MeasureSpec.AT_MOST));
-            }
-        };
+        ScrollView scroll = SheetBottomDialog.createCappedScrollView(context, 55);
         scroll.addView(content);
         LinearLayout.LayoutParams scrollParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -490,6 +475,25 @@ public final class PlaylistTagsDialogs {
         return view;
     }
 
+    /**
+     * A text cut to one line, such as the title of a row.
+     */
+    static TextView createLineText(Context context, String text, int sizeSp) {
+        TextView view = createText(context, text, sizeSp);
+        view.setSingleLine(true);
+        view.setEllipsize(TextUtils.TruncateAt.END);
+        return view;
+    }
+
+    /**
+     * A dimmed text cut to one line, such as the summary of a row.
+     */
+    static TextView createSummaryText(Context context, String text, int sizeSp) {
+        TextView view = createLineText(context, text, sizeSp);
+        view.setAlpha(0.7f);
+        return view;
+    }
+
     private static View createListRow(Context context, String title, @Nullable String summary, Runnable onClick) {
         LinearLayout row = new LinearLayout(context);
         row.setOrientation(LinearLayout.VERTICAL);
@@ -497,18 +501,8 @@ public final class PlaylistTagsDialogs {
         row.setPadding(0, Dim.dp8, 0, Dim.dp8);
         row.setOnClickListener(v -> onClick.run());
 
-        TextView titleView = createText(context, title, 16);
-        titleView.setSingleLine(true);
-        titleView.setEllipsize(TextUtils.TruncateAt.END);
-        row.addView(titleView);
-
-        if (summary != null) {
-            TextView summaryView = createText(context, summary, 13);
-            summaryView.setAlpha(0.7f);
-            summaryView.setSingleLine(true);
-            summaryView.setEllipsize(TextUtils.TruncateAt.END);
-            row.addView(summaryView);
-        }
+        row.addView(createLineText(context, title, 16));
+        if (summary != null) row.addView(createSummaryText(context, summary, 13));
         return row;
     }
 

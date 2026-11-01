@@ -161,11 +161,6 @@ final class PlaylistTagsStore {
         return new ArrayList<>(tags.keySet());
     }
 
-    static synchronized boolean hasTag(String name) {
-        loadIfNeeded();
-        return tags.containsKey(name);
-    }
-
     /**
      * @return False if the name is empty or the tag already exists.
      */

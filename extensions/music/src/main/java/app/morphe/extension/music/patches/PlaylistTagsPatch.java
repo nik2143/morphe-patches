@@ -12,9 +12,7 @@ import static app.morphe.extension.shared.StringRef.str;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -138,46 +136,40 @@ public final class PlaylistTagsPatch {
     }
 
     /**
-     * @return The item if it is a proto, or the proto an item wraps, such as the grid view items.
+     * @return The serialized proto of an item that is a proto, or wraps one such as the grid view
+     *         items, or null if the item holds no proto, such as a header.
      */
     @Nullable
-    private static Object findMessage(Object item) {
+    private static byte[] serialize(@Nullable Object item) {
+        if (item == null) return null;
         Class<?> itemClass = item.getClass();
-        if (isMessage(itemClass)) return item;
-
         try {
-            Field field = wrappedMessageFields.get(itemClass);
-            if (field == null) {
-                if (classesWithoutMessage.contains(itemClass)) return null;
-                for (Field candidate : itemClass.getDeclaredFields()) {
-                    if (Modifier.isStatic(candidate.getModifiers())
-                            || candidate.getType().isPrimitive()
-                            || !isMessage(candidate.getType())) continue;
-                    candidate.setAccessible(true);
-                    field = candidate;
-                    break;
-                }
+            Object message = item;
+            if (!isMessage(itemClass)) {
+                Field field = wrappedMessageFields.get(itemClass);
                 if (field == null) {
-                    classesWithoutMessage.add(itemClass);
-                    return null;
+                    if (classesWithoutMessage.contains(itemClass)) return null;
+                    for (Field candidate : itemClass.getDeclaredFields()) {
+                        if (Modifier.isStatic(candidate.getModifiers())
+                                || candidate.getType().isPrimitive()
+                                || !isMessage(candidate.getType())) continue;
+                        candidate.setAccessible(true);
+                        field = candidate;
+                        break;
+                    }
+                    if (field == null) {
+                        classesWithoutMessage.add(itemClass);
+                        return null;
+                    }
+                    wrappedMessageFields.put(itemClass, field);
                 }
-                wrappedMessageFields.put(itemClass, field);
+                message = field.get(item);
+                if (message == null) return null;
             }
-            return field.get(item);
-        } catch (Exception ex) {
-            Logger.printException(() -> "Could not unwrap: " + itemClass.getName(), ex);
-            return null;
-        }
-    }
-
-    @Nullable
-    private static byte[] serialize(Object message) {
-        try {
             Class<?> messageClass = message.getClass();
-            if (!isMessage(messageClass)) return null;
-            return (byte[]) toByteArrayMethods.get(messageClass).invoke(message);
+            return isMessage(messageClass) ? (byte[]) toByteArrayMethods.get(messageClass).invoke(message) : null;
         } catch (Exception ex) {
-            Logger.printException(() -> "Could not serialize: " + message.getClass().getName(), ex);
+            Logger.printException(() -> "Could not serialize: " + itemClass.getName(), ex);
             return null;
         }
     }
@@ -275,11 +267,8 @@ public final class PlaylistTagsPatch {
             List<Object> filtered = new ArrayList<>(items.size());
             boolean showOnlyTag = !PlaylistTagsStore.getOnlyTag().isEmpty();
             for (Object item : items) {
-                Object message = item == null ? null : findMessage(item);
-                byte[] bytes = message == null ? null : serialize(message);
-                PlaylistTagsProto.GridItem playlist = bytes == null
-                        ? null
-                        : PlaylistTagsProto.readGridItem(bytes);
+                byte[] bytes = serialize(item);
+                PlaylistTagsProto.GridItem playlist = bytes == null ? null : PlaylistTagsProto.readGridItem(bytes);
 
                 if (playlist != null) {
                     PlaylistTagsStore.rememberPlaylist(playlist.playlistId(), playlist.title());
@@ -288,7 +277,7 @@ public final class PlaylistTagsPatch {
                                 + " (" + playlist.playlistId() + ")");
                         continue;
                     }
-                } else if (showOnlyTag && message != null) {
+                } else if (showOnlyTag && bytes != null) {
                     // Mixes, albums, artists and profiles can't be tagged. Items that are not
                     // a proto, such as headers, are kept.
                     continue;
@@ -404,22 +393,13 @@ public final class PlaylistTagsPatch {
             } else {
                 row.setBackgroundColor(ThemeUtils.getAppBackgroundColor());
             }
-            setSelectableForeground(row);
+            row.setForeground(context.getDrawable(
+                    ThemeUtils.getThemeResourceId(context, android.R.attr.selectableItemBackground)));
 
-            TextView title = new TextView(context);
-            title.setText(str("morphe_music_playlist_tags_menu_item"));
-            title.setTextColor(ThemeUtils.getAppForegroundColor());
-            title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            row.addView(title);
-
-            TextView summary = new TextView(context);
-            summary.setText(PlaylistTagsDialogs.describeTags(PlaylistTagsStore.getPlaylistTags(playlistId)));
-            summary.setTextColor(ThemeUtils.getAppForegroundColor());
-            summary.setAlpha(0.7f);
-            summary.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-            summary.setSingleLine(true);
-            summary.setEllipsize(TextUtils.TruncateAt.END);
-            row.addView(summary);
+            row.addView(PlaylistTagsDialogs.createLineText(context,
+                    str("morphe_music_playlist_tags_menu_item"), 16));
+            row.addView(PlaylistTagsDialogs.createSummaryText(context,
+                    PlaylistTagsDialogs.describeTags(PlaylistTagsStore.getPlaylistTags(playlistId)), 13));
 
             row.setOnClickListener(v -> {
                 Context dialogContext = getDialogContext(context);
@@ -540,15 +520,5 @@ public final class PlaylistTagsPatch {
     private static Context getDialogContext(Context fallback) {
         Activity activity = Utils.getActivity();
         return activity != null ? activity : fallback;
-    }
-
-    private static void setSelectableForeground(View view) {
-        TypedArray attributes = view.getContext().obtainStyledAttributes(
-                new int[]{android.R.attr.selectableItemBackground});
-        try {
-            view.setForeground(attributes.getDrawable(0));
-        } finally {
-            attributes.recycle();
-        }
     }
 }
