@@ -31,6 +31,16 @@ internal object LibraryGridItemsFingerprint : Fingerprint(
 )
 
 /**
+ * Removes a playlist from a list when the event of a deleted playlist, or a playlist removed
+ * from the Library, is posted. The event is the parameter.
+ */
+internal object HandleDeletePlaylistEventFingerprint : Fingerprint(
+    name = "handleDeletePlaylistEvent",
+    returnType = "V",
+    parameters = listOf("L"),
+)
+
+/**
  * Returns the layout of the flyout menu bottom sheet.
  */
 internal object MenuBottomSheetLayoutFingerprint : Fingerprint(

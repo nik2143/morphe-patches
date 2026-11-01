@@ -14,7 +14,9 @@ import com.google.protobuf.WireFormat;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -55,6 +57,11 @@ final class PlaylistTagsProto {
      * Nesting limit of the generic scan, so malformed data cannot recurse deeply.
      */
     private static final int MAX_SCAN_DEPTH = 32;
+
+    /**
+     * Longest value the menu scan compares with the known playlists. Playlist ids are about 34 characters.
+     */
+    private static final int MAX_ID_LENGTH = 64;
 
     record GridItem(String playlistId, String title) {
     }
@@ -97,10 +104,12 @@ final class PlaylistTagsProto {
     }
 
     /**
+     * @param knownPlaylistIds Playlists seen in the Library. The menu of an empty playlist has no
+     *                         action to play or open it, but it keeps the id in other actions.
      * @return The playlist a flyout menu belongs to, or null if the menu is not for a playlist.
      */
     @Nullable
-    static String findMenuPlaylistId(byte[] menu) {
+    static String findMenuPlaylistId(byte[] menu, Set<String> knownPlaylistIds) {
         ScanResult scan = new ScanResult();
         scan(menu, 0, menu.length, 0, scan);
 
@@ -112,7 +121,14 @@ final class PlaylistTagsProto {
                 bestScore = entry.getValue();
             }
         }
-        return best;
+        if (best != null) return best;
+
+        for (String text : scan.texts) {
+            if (knownPlaylistIds.contains(text)) return text;
+            String id = playlistIdFromBrowseId(text);
+            if (id != null && knownPlaylistIds.contains(id)) return id;
+        }
+        return null;
     }
 
     @Nullable
@@ -135,6 +151,10 @@ final class PlaylistTagsProto {
          * Playlist id to score. A browse endpoint to the playlist page counts more than a play action.
          */
         final Map<String, Integer> scores = new HashMap<>();
+        /**
+         * Short values that look like ids, in the order they appear.
+         */
+        final Set<String> texts = new LinkedHashSet<>();
 
         void add(String playlistId, int score) {
             Integer current = scores.get(playlistId);
@@ -177,6 +197,9 @@ final class PlaylistTagsProto {
                 } else if (fieldNumber == WATCH_PLAYLIST_ENDPOINT) {
                     String id = readStringField(data, valueStart, valueEnd, WATCH_PLAYLIST_ID);
                     if (id != null && isPlaylistId(id)) result.add(id, 1);
+                } else if (length >= 2 && length <= MAX_ID_LENGTH) {
+                    String text = new String(data, valueStart, length, StandardCharsets.UTF_8);
+                    if (PLAYLIST_ID_PATTERN.matcher(text).matches()) result.texts.add(text);
                 }
 
                 scan(data, valueStart, valueEnd, depth + 1, result);

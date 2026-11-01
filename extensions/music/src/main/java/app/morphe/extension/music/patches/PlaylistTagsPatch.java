@@ -303,6 +303,26 @@ public final class PlaylistTagsPatch {
     }
 
     /**
+     * Injection point.
+     * Called when the app removes a playlist from its lists, because the playlist was deleted
+     * or removed from the Library. Its tags are forgotten.
+     *
+     * @param playlistId The id of the playlist.
+     */
+    public static void onPlaylistRemoved(@Nullable String playlistId) {
+        if (playlistId == null) return;
+        try {
+            // Browse ids of playlists start with VL.
+            String id = playlistId.startsWith("VL") ? playlistId.substring(2) : playlistId;
+            if (PlaylistTagsStore.forgetPlaylist(id)) {
+                Logger.printDebug(() -> "Forgot the tags of removed playlist: " + id);
+            }
+        } catch (Exception ex) {
+            Logger.printException(() -> "onPlaylistRemoved failure", ex);
+        }
+    }
+
+    /**
      * Rebinds the Library list and grid views, so the current tag filter is applied.
      */
     static void reloadLibrary() {
@@ -354,7 +374,8 @@ public final class PlaylistTagsPatch {
         try {
             byte[] bytes = serialize(menu);
             if (bytes == null) return;
-            String playlistId = PlaylistTagsProto.findMenuPlaylistId(bytes);
+            String playlistId = PlaylistTagsProto.findMenuPlaylistId(bytes,
+                    PlaylistTagsStore.getKnownPlaylists().keySet());
             if (playlistId == null) return;
 
             View list = dialog.findViewById(ResourceUtils.getIdIdentifier("bottom_sheet_list"));

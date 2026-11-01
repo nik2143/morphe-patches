@@ -339,6 +339,20 @@ final class PlaylistTagsStore {
         saveKnownPlaylists();
     }
 
+    /**
+     * Forgets a playlist and its tags, after it was deleted or removed from the Library.
+     *
+     * @return If the playlist was known or tagged.
+     */
+    static synchronized boolean forgetPlaylist(String playlistId) {
+        loadIfNeeded();
+        boolean tagged = playlistTags.remove(playlistId) != null;
+        boolean known = knownPlaylists.remove(playlistId) != null;
+        if (tagged) save();
+        if (known) saveKnownPlaylists();
+        return tagged || known;
+    }
+
     @NonNull
     static synchronized String getPlaylistTitle(String playlistId) {
         loadIfNeeded();

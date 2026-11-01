@@ -85,6 +85,25 @@ val playlistTagsPatch = bytecodePatch(
 
         // endregion
 
+        // region Library: forget the tags of deleted playlists.
+
+        // The event keeps the removed item, if any, and the id of the playlist.
+        val deleteEventType = HandleDeletePlaylistEventFingerprint.method.parameterTypes.first().toString()
+        mutableClassDefBy(deleteEventType).methods.filter { method ->
+            method.name == "<init>" && method.parameterTypes.map { type -> type.toString() }.let { types ->
+                types.size == 2 && types[1] == "Ljava/lang/String;"
+            }
+        }.ifEmpty {
+            throw PatchException("Could not find the constructor of the deleted playlist event")
+        }.forEach { constructor ->
+            constructor.addInstruction(
+                0,
+                "invoke-static { p2 }, $EXTENSION_CLASS->onPlaylistRemoved(Ljava/lang/String;)V"
+            )
+        }
+
+        // endregion
+
         // region Flyout menu: add a 'Tags' row to the menu of a playlist.
 
         val menuField = MenuBottomSheetItemsFingerprint.instructionMatches.first()
